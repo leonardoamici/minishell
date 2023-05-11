@@ -5,7 +5,8 @@ NAME = minishell
 LIBFT = Libft/libft.a
 
 SRC =	main.c \
-	history.c
+	history.c \
+	variables.c
 
 PTH = source/
 
