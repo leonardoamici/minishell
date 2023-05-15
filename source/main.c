@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:43:52 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/11 15:51:18 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/15 15:49:02 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_printlist(t_list	*vars)
 	}
 }
 
-void	ft_handler(char *str, char **hst)
+void	ft_handler(char *str, char **hst, char **env)
 {
 	int		i;
 	static t_list	*var = NULL;
@@ -45,18 +45,25 @@ void	ft_handler(char *str, char **hst)
 	}
 	if(!ft_strcmp(str, "vars\n"))
 		ft_printlist(temp);
+	if(!ft_strcmp(str, "pwd\n"))
+		ft_pwd(1);
+	if(!ft_strcmp(str, "env\n"))
+		ft_env(env, 1);
+	if(!ft_strcmp(str, "exit\n"))
+		ft_exit(var, str);
 }
 
-int		main(void)
+int		main(int ac, char **av, char **env)
 {
 	char	*str;
 
 	str = NULL;
+	ac = 0;
+	av = 0;
 	while(1)
 	{
-		write(1, "&>", 2);	
-		str = readline(0);
-		ft_handler(str, ft_get_hst(str, 0));
+		str = readline("$>");
+		ft_handler(str, ft_get_hst(str, 0), env);
 		ft_get_hst(str, 1);
 		free(str);
 	}

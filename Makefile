@@ -6,7 +6,8 @@ LIBFT = Libft/libft.a
 
 SRC =	main.c \
 	history.c \
-	variables.c
+	variables.c \
+	echo.c
 
 PTH = source/
 
