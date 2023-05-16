@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 09:05:25 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/15 16:54:47 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/16 12:40:18 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,31 @@ int		ft_echo(int flag, int fd, char *str)
 	}
 }
 
-int		ft_pwd(int fd)
+int		ft_pwd(char **my_env, int fd)
 {
-	char *path;
+	int		x;
+	char 	*path;
 
-	if(fd == 0)
-		;
-	path = getenv("PWD");
-	printf("%s\n",  path);
+	x = 0;
+	while(my_env[x])
+	{
+		if(ft_strncmp(my_env[x], "PWD", 3));
+		{
+			path = my_env[x];
+			ft_putstr_fd(my_env[x] + 4, fd);
+		}
+	}
 }
 
-int		ft_env(char **env, int fd)
+int		ft_env(char **my_env, int fd)
 {
 	int		y;
 
 	y = 0;
-	while(env[y])
+	while(my_env[y])
 	{
-		ft_putstr_fd(ft_strjoin(env[y], "\n"), fd);
+		ft_putstr_fd(my_env[y], fd);
+		write(fd, "\n", 1);
 		y++;
 	}
 	return(0);
@@ -69,4 +76,22 @@ int		ft_exit(t_list *vars, char *str)
 	ft_free_list(vars);
 	free(str);
 	exit(0);
+}
+
+int		ft_cd(char *str, char **my_env)
+{
+	int		x;
+
+	x = ft_get_env_addr(my_env, "PWD");
+	if(!chdir(str))
+	{
+		if(str[0] == '/')
+		{
+			free(my_env[x]);
+			my_env[x] = ft_strjoin("PWD=", ft_strdup(str));
+		}
+		else
+			my_env[x] = ft_relative_cd(my_env[x], str);
+	}
+	//perror(-1);
 }
