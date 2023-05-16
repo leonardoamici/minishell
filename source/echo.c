@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 09:05:25 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/16 12:40:18 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/16 17:02:57 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,14 @@ int		ft_pwd(char **my_env, int fd)
 	x = 0;
 	while(my_env[x])
 	{
-		if(ft_strncmp(my_env[x], "PWD", 3));
+		if(!ft_strncmp(my_env[x], "PWD=", 4))
 		{
 			path = my_env[x];
-			ft_putstr_fd(my_env[x] + 4, fd);
+			ft_putstr_fd(my_env[x], fd);
+			write(fd, "\n", 1);
+			break;
 		}
+		x++;
 	}
 }
 

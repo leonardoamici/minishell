@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:43:52 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/16 12:48:33 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/16 16:42:10 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	ft_handler(char *str, char **hst, char **my_env)
 	static t_list	*temp;
 
 	i = 0;
-	if(!ft_strcmp(str, "history\n"))
+	if(!ft_strncmp(str, "history", 7))
 		ft_print_history(hst);
-	if(!ft_strncmp(str, "$", 1))
+	else if(!ft_strncmp(str, "$", 1))
 	{	
 		if(!var)
 		{
@@ -43,16 +43,16 @@ void	ft_handler(char *str, char **hst, char **my_env)
 			var = var->next;
 		}
 	}
-	if(!ft_strcmp(str, "vars\n"))
+	else if(!ft_strncmp(str, "vars", 4))
 		ft_printlist(temp);
-	if(!ft_strcmp(str, "pwd\n"))
-		ft_pwd(1, my_env);
-	if(!ft_strcmp(str, "env\n"))
+	else if(!ft_strncmp(str, "pwd", 3))
+		ft_pwd(my_env, 1);
+	else if(!ft_strncmp(str, "env", 3))
 		ft_env(my_env, 1);
-	if(!ft_strcmp(str, "exit\n"))
+	else if(!ft_strncmp(str, "exit", 4))
 		ft_exit(var, str);
-	if(!ft_strcmp(str, "cd"))
-		ft_cd();
+//	if(!ft_strcmp(str, "cd"))
+//		ft_cd();
 }
 
 int		main(int ac, char **av, char **env)
