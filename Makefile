@@ -8,7 +8,8 @@ SRC =	main.c \
 	history.c \
 	variables.c \
 	echo.c \
-	env_managing.c
+	env_managing.c \
+	signals.c
 
 PTH = source/
 

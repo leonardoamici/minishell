@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:43:52 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/16 16:42:10 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/17 17:51:11 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ void	ft_handler(char *str, char **hst, char **my_env)
 			var = var->next;
 		}
 	}
-	else if(!ft_strncmp(str, "vars", 4))
+	else if(!ft_strcmp(str, "vars"))
 		ft_printlist(temp);
-	else if(!ft_strncmp(str, "pwd", 3))
+	else if(!ft_strcmp(str, "pwd"))
 		ft_pwd(my_env, 1);
-	else if(!ft_strncmp(str, "env", 3))
+	else if(!ft_strcmp(str, "env"))
 		ft_env(my_env, 1);
-	else if(!ft_strncmp(str, "exit", 4))
+	else if(!ft_strcmp(str, "exit"))
 		ft_exit(var, str);
-//	if(!ft_strcmp(str, "cd"))
-//		ft_cd();
+	if(!ft_strncmp(str, "cd", 2))
+		ft_cd(str + 3, my_env);
 }
 
 int		main(int ac, char **av, char **env)
@@ -60,16 +60,17 @@ int		main(int ac, char **av, char **env)
 	char	*str;
 	char	**my_env;
 
-	str = NULL;
-	my_env = ft_dup_env(env, 0, str);
+	my_env = ft_dup_env(env, 0, NULL);
+	ft_sighandler();
 	ac = 0;
 	av = 0;
-	while(1)
+	str = readline("$>");
+	while(str)
 	{
-		str = readline("$>");
 		ft_handler(str, ft_get_hst(str, 0), my_env);
 		add_history(str);
 		ft_get_hst(str, 1);
 		free(str);
+		str = readline("$>");
 	}
 }

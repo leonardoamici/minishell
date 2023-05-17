@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_kill_matrix.c                                   :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/27 09:10:36 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/17 16:07:48 by lamici           ###   ########.fr       */
+/*   Created: 2023/05/17 09:08:10 by lamici            #+#    #+#             */
+/*   Updated: 2023/05/17 09:32:22 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_kill_matrix(char **mat)
+void	ft_nothing(int signal)
 {
-	int	x;
+	if (signal)
+		;
+}
 
-	x = 0;
-	while (mat[x] != 0)
-	{
-		free(mat[x]);
-		x++;
-	}
-	free(mat);
+void	ft_newprompt(int signal)
+{
+	write(1, "\n", 1);
+}
+
+void	ft_sighandler(void)
+{
+	signal(SIGINT, ft_newprompt);
+	signal(SIGQUIT, ft_nothing);
 }
