@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 10:16:04 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/11 15:54:26 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/19 10:17:11 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,13 @@ t_list	*ft_var_creation(char *var)
 	vars->next = NULL;
 	vars->exp_check = 0;
 	return(vars);
+}
+
+t_list	*ft_find_var(t_list *vars, char *str)
+{
+	t_list	*temp;
+
+	temp = vars;
+	while(strcmp(temp->name ,str))
+		temp = temp->next;
 }

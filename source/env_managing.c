@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 10:43:50 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/16 16:30:38 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/19 09:35:47 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char	**ft_dup_env(char **old_env, int flag, char *var)
 	}
 	else
 	{
-		ft_kill_matrix(old_env);
 		myenv = malloc(sizeof(char *) * ft_matlen(old_env) + 2);
 		while(old_env[x])
 		{
@@ -39,6 +38,7 @@ char	**ft_dup_env(char **old_env, int flag, char *var)
 		}
 		myenv[x++] =  ft_strdup(var);
 		myenv[x] = 0;
+		ft_kill_matrix(old_env);
 	}
 	return (myenv);
 }

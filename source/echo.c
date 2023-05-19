@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 09:05:25 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/17 18:07:48 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/19 15:23:22 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,13 @@ int		ft_cd(char *str, char **my_env)
 	char	*temp;
 
 	x = ft_get_env_addr(my_env, "PWD");
+	printf("%s\n",getenv("PWD"));
 	if(!chdir(str))
 	{
 		if(str[0] == '/')
 		{
 			free(my_env[x]);
-			temp =  ft_strdup(str);
+			temp = ft_strdup(str);
 			my_env[x] = ft_strjoin("PWD=", temp);
 			free(temp);
 		}
@@ -102,3 +103,17 @@ int		ft_cd(char *str, char **my_env)
 	else
 		perror("Error");
 }
+
+/*
+int		ft_cat(char *path, t_fds fds)
+{
+	char *str;
+
+	str = get_next_line(fds.rfd);
+	while (str)
+	{
+		write(fds.wfd, &str, 1);
+		str++;
+	}
+	free(str);
+}*/

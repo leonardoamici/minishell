@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:55:13 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/17 09:17:50 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/19 09:30:20 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ typedef	struct	s_list
 	struct s_list *next;
 } 				t_list;
 
+typedef struct s_fds
+{
+	int		rfd;
+	int		wfd;
+}			t_fds;
+
 //project body
 void	ft_handler(char *str, char **hst, char **env);
 void	ft_print_history(char **hst);
@@ -35,7 +41,7 @@ t_list	*ft_var_creation(char *var);
 //built-ins
 int		ft_pwd(char **my_env, int fd);
 int		ft_exit(t_list *vars, char *str);
-//    change directory
+// change directory
 int		ft_cd(char *str, char **my_env);
 char	*ft_relative_cd(char *my_cd, char *str);
 // env

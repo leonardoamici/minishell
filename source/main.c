@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:43:52 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/17 17:51:11 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/19 10:30:02 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ void	ft_handler(char *str, char **hst, char **my_env)
 		ft_env(my_env, 1);
 	else if(!ft_strcmp(str, "exit"))
 		ft_exit(var, str);
-	if(!ft_strncmp(str, "cd", 2))
+	else if(!ft_strncmp(str, "cd", 2))
 		ft_cd(str + 3, my_env);
+	else if(!ft_strncmp(str, "export", 6))
+		ft_dup_env(my_env, 1, str + 7);
 }
 
 int		main(int ac, char **av, char **env)
@@ -64,13 +66,13 @@ int		main(int ac, char **av, char **env)
 	ft_sighandler();
 	ac = 0;
 	av = 0;
-	str = readline("$>");
+	str = readline("tragic extent of my failings>");
 	while(str)
 	{
 		ft_handler(str, ft_get_hst(str, 0), my_env);
 		add_history(str);
 		ft_get_hst(str, 1);
 		free(str);
-		str = readline("$>");
+		str = readline("tragic extent of my failings>");
 	}
 }
