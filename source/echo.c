@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
+/*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 09:05:25 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/19 15:23:22 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/21 16:42:37 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int		ft_echo(int flag, int fd, char *str)
 		write(fd, &str[i], 1);
 		i++;
 	}
+	write(1, "\n", 1);
 }
 
 int		ft_pwd(char **my_env, int fd)
@@ -81,13 +82,35 @@ int		ft_exit(t_list *vars, char *str)
 	exit(0);
 }
 
+char	*ft_go_back(char *str, char *my_pwd)
+{
+	int		x;
+	int		z;
+	char	*new_pwd;
+
+	x = ft_strlen(my_pwd);
+	z = x;
+	while(my_pwd[x] != '/')
+		x--;
+	x--;
+	new_pwd = malloc(sizeof(char) * (z - x) + 1);
+	z = 0;
+	while(z < x)
+	{
+		new_pwd[z] = my_pwd[z];
+		z++;
+	}
+	new_pwd[z] = '\0';
+	free(my_pwd);
+	return (new_pwd);
+}
+
 int		ft_cd(char *str, char **my_env)
 {
 	int		x;
 	char	*temp;
 
 	x = ft_get_env_addr(my_env, "PWD");
-	printf("%s\n",getenv("PWD"));
 	if(!chdir(str))
 	{
 		if(str[0] == '/')
@@ -97,6 +120,8 @@ int		ft_cd(char *str, char **my_env)
 			my_env[x] = ft_strjoin("PWD=", temp);
 			free(temp);
 		}
+		else if(str[0] == '.' && str[1] == '.' && !str[2])
+			my_env[x] = ft_go_back(str, my_env[x]);
 		else
 			my_env[x] = ft_relative_cd(my_env[x], str);
 	}

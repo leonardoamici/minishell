@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
+/*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:55:13 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/19 09:30:20 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/21 16:41:05 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_list	*ft_var_creation(char *var);
 //built-ins
 int		ft_pwd(char **my_env, int fd);
 int		ft_exit(t_list *vars, char *str);
+int		ft_echo(int flag, int fd, char *str);
 // change directory
 int		ft_cd(char *str, char **my_env);
 char	*ft_relative_cd(char *my_cd, char *str);
