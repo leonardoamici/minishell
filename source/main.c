@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:43:52 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/24 10:56:04 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:03:51 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ char	**ft_handler(char *str, char **hst, char **my_env)
 		ft_echo(0, 1, str + 5);
 	else if(!ft_strncmp(str, "export", 6))
 		my_env = ft_export(my_env, var, str + 7);
-	//else if(!ft_strncmp(str, "ancestor", 8))
-	//	print_ancestor();
-	//else if(!ft_strncmp(str, "abettini", 8))
-	//	print_abettini();
+	else if(!ft_strncmp(str, "ancestor", 8))
+		print_ancestor();
+	else if(!ft_strncmp(str, "abettini", 8))
+		print_abettini();
+	else if(!ft_strncmp(str, "clear", 5))
+		system("clear");
 	return (my_env);
 }
 
