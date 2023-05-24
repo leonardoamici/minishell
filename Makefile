@@ -7,9 +7,10 @@ LIBFT = Libft/libft.a
 SRC =	main.c \
 	history.c \
 	variables.c \
-	echo.c \
+	built_ins.c \
 	env_managing.c \
-	signals.c
+	signals.c \
+	cd.c
 
 PTH = source/
 

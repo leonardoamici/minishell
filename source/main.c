@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:43:52 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/21 16:40:35 by leo              ###   ########.fr       */
+/*   Updated: 2023/05/24 10:56:04 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_printlist(t_list	*vars)
 	}
 }
 
-void	ft_handler(char *str, char **hst, char **my_env)
+char	**ft_handler(char *str, char **hst, char **my_env)
 {
 	int		i;
 	static t_list	*var = NULL;
@@ -56,7 +56,12 @@ void	ft_handler(char *str, char **hst, char **my_env)
 	else if(!ft_strncmp(str, "echo", 4))
 		ft_echo(0, 1, str + 5);
 	else if(!ft_strncmp(str, "export", 6))
-		ft_dup_env(my_env, 1, str + 7);
+		my_env = ft_export(my_env, var, str + 7);
+	//else if(!ft_strncmp(str, "ancestor", 8))
+	//	print_ancestor();
+	//else if(!ft_strncmp(str, "abettini", 8))
+	//	print_abettini();
+	return (my_env);
 }
 
 int		main(int ac, char **av, char **env)
@@ -68,13 +73,14 @@ int		main(int ac, char **av, char **env)
 	ft_sighandler();
 	ac = 0;
 	av = 0;
-	str = readline("$>");
+	printf("%s, ruin has come to our family \n", getenv("USER"));
+	str = readline("in time, you will see the tragic extent of my failings>");
 	while(str)
 	{
-		ft_handler(str, ft_get_hst(str, 0), my_env);
+		my_env = ft_handler(str, ft_get_hst(str, 0), my_env);
 		add_history(str);
 		ft_get_hst(str, 1);
 		free(str);
-		str = readline("$>");
+		str = readline("in time, you will see the tragic extent of my failings>");
 	}
 }
