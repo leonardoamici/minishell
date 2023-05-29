@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 09:05:25 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/24 10:57:06 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/29 16:26:18 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,48 @@ char 	**ft_export(char **my_env, t_list *vars, char *name)
 	}
 	else
 		return(my_env);
+}
+
+int		ft_is_var(t_list *var, char *str)
+{
+	if(!ft_strcmp(var->name, str))
+		return(0);
+	else
+		return(1);
+}
+
+char	**ft_unset(char **my_env, t_list **vars, char *name)
+{
+	int		i;
+	t_list	*temp;
+
+	i = 0;
+	temp = (*vars)->next;
+	my_env = ft_dup_env(my_env, -1, name);
+	if(!ft_is_var(*vars, name))
+	{
+		free((*vars)->name);
+		free((*vars)->content);
+		free(*vars);
+		*vars = temp;
+	}
+	else
+	{
+		while(temp)
+		{
+			if(!ft_is_var(temp, name))
+			{
+				(*vars)->next = temp->next;
+				free(temp->name);
+				free(temp->content);
+				free(temp);
+				break ;
+			}
+			*vars = (*vars)->next;
+			temp = temp->next;
+		}
+	}
+	return (my_env);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:03:19 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/24 09:43:08 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/26 10:34:20 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,14 @@ int		ft_cd(char *str, char **my_env)
 			{
 				if (moves[i][0] == '.' && moves[i][1] == '.')
 					my_env[x] = ft_go_back(my_env[x]);
+				else if(moves[i][0] == '.' && !moves[i][1])
+					;
 				else
 					my_env[x] = ft_relative_cd(my_env[x], moves[i]);
 				i++;
 			}
 		}
+		ft_kill_matrix(moves);
 	}
 	else
 		perror("Error");
