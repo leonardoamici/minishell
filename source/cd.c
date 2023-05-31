@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:03:19 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/26 10:34:20 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/31 11:59:19 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,21 @@ char	*ft_relative_cd(char *my_cd, char *str)
 	return(result);
 }
 
-int		ft_cd(char *str, char **my_env)
+void		ft_cd(char *str, t_list	*my_env)
 {
-	int		x;
 	char	*temp;
 	char	**moves;
 	int		i;
 
 	i = 0;
-	x = ft_get_env_addr(my_env, "PWD");
+	while(ft_strncmp(my_env->name, "PWD", 4))
+		my_env = my_env->next;
 	if(!chdir(str))
 	{
 		if(str[0] == '/')
 		{
-			free(my_env[x]);
-			temp = ft_strdup(str);
-			my_env[x] = ft_strjoin("PWD=", temp);
-			free(temp);
+			free(my_env->content);
+			my_env->content = ft_strdup(str);
 		}
 		else
 		{
@@ -69,11 +67,11 @@ int		ft_cd(char *str, char **my_env)
 			while(moves[i])
 			{
 				if (moves[i][0] == '.' && moves[i][1] == '.')
-					my_env[x] = ft_go_back(my_env[x]);
+					my_env->content = ft_go_back(my_env->content);
 				else if(moves[i][0] == '.' && !moves[i][1])
 					;
 				else
-					my_env[x] = ft_relative_cd(my_env[x], moves[i]);
+					my_env->content = ft_relative_cd(my_env->content, moves[i]);
 				i++;
 			}
 		}

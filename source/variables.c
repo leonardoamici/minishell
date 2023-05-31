@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 10:16:04 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/19 10:17:11 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/31 17:51:56 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,23 +68,26 @@ char	*ft_givecontent(int x, char *str)
 	return (content);
 }
 
-t_list	*ft_var_creation(char *var)
+t_list	*ft_var_creation(char *var, int check)
 {
 	int			x;
 	int			z;
 	t_list		*vars;
 
 	x = 0;
+	z = 0;
 	vars = malloc(sizeof(t_list));
 	while(var[x] != '=')
 		x++;
-	z = x + 1;
 	while(var[z])
 		z++;
 	vars->content = ft_givecontent((z - x - ft_offset(var)), var);
 	vars->name = ft_givename(x, var);
 	vars->next = NULL;
-	vars->exp_check = 0;
+	if(check)
+		vars->exp_check = 1;
+	else
+		vars->exp_check = 0;
 	return(vars);
 }
 
@@ -93,6 +96,34 @@ t_list	*ft_find_var(t_list *vars, char *str)
 	t_list	*temp;
 
 	temp = vars;
-	while(strcmp(temp->name ,str))
+	while(temp && (strcmp(temp->name ,str)))
 		temp = temp->next;
+	return (temp);
+}
+
+void	ft_var_check(t_list *my_env, char *var)
+{
+	int		check;
+	t_list	*temp;
+	t_list	*tvar;
+
+	check = 0;
+	temp = my_env;
+	tvar = ft_var_creation(var, 0);
+	while(temp)
+	{
+		if(!ft_strcmp(tvar->name, temp->name))
+		{
+			check = 1;
+			break ;
+		}
+		temp = temp->next;
+	}
+	if(check)
+	{
+		free(temp->content);
+		temp->content = ft_strdup(tvar->content);
+	}
+	else
+		ft_new_var(my_env, var);
 }

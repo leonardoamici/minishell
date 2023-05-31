@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:43:52 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/29 16:27:07 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/31 17:49:08 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_printlist(t_list	*vars)
 	}
 }
 
-char	**ft_handler(char *str, char **hst, char **my_env, t_list **var)
+char	**ft_handler(char *str, char **hst, t_list **my_env)
 {
 	int		i;
 	
@@ -29,19 +29,19 @@ char	**ft_handler(char *str, char **hst, char **my_env, t_list **var)
 	if (!ft_strncmp(str, "history", 7))
 		ft_print_history(hst);
 	else if(!ft_strcmp(str, "vars"))
-		ft_printlist(*var);
+		ft_printlist(*my_env);
 	else if(!ft_strcmp(str, "pwd"))
-		ft_pwd(my_env, 1);
+		ft_pwd(*my_env);
 	else if(!ft_strcmp(str, "env"))
-		ft_env(my_env, 1);
-	else if(!ft_strcmp(str, "exit"))
-		ft_exit(*var, str);
+		ft_env(*my_env);
+    //else if(!ft_strcmp(str, "exit"))
+    //	ft_exit(*var, str);
 	else if(!ft_strncmp(str, "cd ", 2))
-		ft_cd(str + 3, my_env);
+		ft_cd(str + 3, *my_env);
 	else if(!ft_strncmp(str, "echo", 5))
 		ft_echo(0, 1, str + 5);
 	else if(!ft_strncmp(str, "export", 6))
-		my_env = ft_export(my_env, *var, str + 7);
+		ft_export(*my_env, str + 7);
 	else if(!ft_strncmp(str, "ancestor", 8))
 		print_ancestor();
 	else if(!ft_strncmp(str, "abettini", 8))
@@ -49,29 +49,10 @@ char	**ft_handler(char *str, char **hst, char **my_env, t_list **var)
 	else if(!ft_strncmp(str, "clear", 6))
 		system("clear");
 	else if(!ft_strncmp(str, "unset", 5))
-		my_env = ft_unset(my_env, var, str + 6);
-	return (my_env);
+		ft_unset(my_env, str + 6);
 }
 
-t_list	*ft_list_maker(t_list *var, char *str)
-{
-	t_list	*temp;
-
-	temp = var;
-	if(!var)
-		var = ft_var_creation(str + 1);
-	else
-	{
-		while(temp->next)
-			temp = temp->next;
-		temp->next = ft_var_creation(str + 1);
-		temp = temp->next;
-		temp->next = NULL;
-	}
-	return(var);
-}
-
-void	ft_launch_shell(char **my_env)
+void	ft_launch_shell(t_list	**my_env)
 {	
 	char *str;
 	t_list	*vars;
@@ -81,12 +62,12 @@ void	ft_launch_shell(char **my_env)
 	while(str)
 	{	
 		if (!ft_strncmp(str, "$", 1))
-			vars = ft_list_maker(vars, str);
+			ft_var_check(*my_env, str + 1);
 		else
 		{
-			my_env = ft_handler(str, ft_get_hst(str, 0), my_env, &vars);
+			ft_handler(str, ft_get_hst(str, 0), my_env);
 			add_history(str);
-			ft_get_hst(str, 1);
+			ft_get_hst(str, 1);//printf("%s\n", my_env->content);
 		}
 		free(str);
 		str = readline("$>");
@@ -95,12 +76,24 @@ void	ft_launch_shell(char **my_env)
 
 int		main(int ac, char **av, char **env)
 {
-	char	*str;
-	char	**my_env;
+	int		x;
+	t_list	**my_env;
+	t_list	*temp;
 
-	my_env = ft_dup_env(env, 0, NULL);
-	//ft_sighandler();
+	x = 1;
+	//printf("%s\n", getenv("PWD"));
+	my_env = malloc(sizeof(t_list *));
+	(*my_env) = ft_var_creation(env[0], 1);
+	temp = (*my_env);
+	while(env[x])
+	{
+		(*my_env)->next = ft_var_creation(env[x], 1);
+		(*my_env) = (*my_env)->next;
+		x++;
+	}
+	*my_env = temp;
 	ft_launch_shell(my_env);
 	ac = 0;
 	av = 0;
+	return (0);
 }

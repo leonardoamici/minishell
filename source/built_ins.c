@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 09:05:25 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/29 16:26:18 by lamici           ###   ########.fr       */
+/*   Updated: 2023/05/31 17:48:29 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,37 +27,34 @@ int		ft_echo(int flag, int fd, char *str)
 	write(1, "\n", 1);
 }
 
-int		ft_pwd(char **my_env, int fd)
+void	ft_pwd(t_list *my_env)
 {
-	int		x;
-	char 	*path;
+	t_list	*temp;
 
-	x = 0;
-	while(my_env[x])
+	temp = my_env;
+	while(temp)
 	{
-		if(!ft_strncmp(my_env[x], "PWD=", 4))
+		if(!ft_strncmp(temp->name, "PWD", 3))
 		{
-			path = my_env[x];
-			ft_putstr_fd(my_env[x] + 4, fd);
-			write(fd, "\n", 1);
+			printf("%s=%s\n", temp->name, temp->content);
 			break;
 		}
-		x++;
+		else
+			temp = temp->next;
 	}
 }
 
-int		ft_env(char **my_env, int fd)
+void	ft_env(t_list *my_env)
 {
-	int		y;
+	t_list	*temp;
 
-	y = 0;
-	while(my_env[y])
+	temp = my_env;
+	while(temp)
 	{
-		ft_putstr_fd(my_env[y], fd);
-		write(fd, "\n", 1);
-		y++;
+		if(temp->exp_check)
+			printf("%s=%s\n", temp->name, temp->content);
+		temp = temp->next;
 	}
-	return(0);
 }
 
 void	ft_free_list(t_list *vars)
@@ -82,25 +79,15 @@ int		ft_exit(t_list *vars, char *str)
 	exit(0);
 }
 
-char 	**ft_export(char **my_env, t_list *vars, char *name)
+void	ft_export(t_list *env, char *name)
 {
-	char *var;
 	t_list	*temp;
-	char **new_env;
 
-	temp = vars;
-	while(ft_strncmp(name, temp->name, ft_strlen(name)) && temp)
+	temp = env;
+	while(temp && (ft_strncmp(name, temp->name, ft_strlen(name))))
 		temp = temp->next;
 	if(temp)
-	{
-		name = ft_strjoin(name, "=");
-		var = ft_strjoin(name, temp->content);
-		new_env = ft_dup_env(my_env, 1, var); 
-		free(var);
-		return(new_env);
-	}
-	else
-		return(my_env);
+		temp->exp_check = 1;
 }
 
 int		ft_is_var(t_list *var, char *str)
@@ -111,14 +98,15 @@ int		ft_is_var(t_list *var, char *str)
 		return(1);
 }
 
-char	**ft_unset(char **my_env, t_list **vars, char *name)
+char	**ft_unset(t_list **vars, char *name)
 {
 	int		i;
 	t_list	*temp;
+	t_list	*temp2;
 
 	i = 0;
 	temp = (*vars)->next;
-	my_env = ft_dup_env(my_env, -1, name);
+	temp2 = (*vars);
 	if(!ft_is_var(*vars, name))
 	{
 		free((*vars)->name);
@@ -132,17 +120,16 @@ char	**ft_unset(char **my_env, t_list **vars, char *name)
 		{
 			if(!ft_is_var(temp, name))
 			{
-				(*vars)->next = temp->next;
+				temp2->next = temp->next;
 				free(temp->name);
 				free(temp->content);
 				free(temp);
 				break ;
 			}
-			*vars = (*vars)->next;
+			temp2 = temp2->next;
 			temp = temp->next;
 		}
 	}
-	return (my_env);
 }
 
 /*
