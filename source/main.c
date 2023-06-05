@@ -6,20 +6,11 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:43:52 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/31 17:49:08 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/05 17:46:42 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_printlist(t_list	*vars)
-{
-	while(vars)
-	{
-		printf("%s=%s\n", vars->name, vars->content);
-		vars = vars->next;
-	}
-}
 
 char	**ft_handler(char *str, char **hst, t_list **my_env)
 {
@@ -34,8 +25,8 @@ char	**ft_handler(char *str, char **hst, t_list **my_env)
 		ft_pwd(*my_env);
 	else if(!ft_strcmp(str, "env"))
 		ft_env(*my_env);
-    //else if(!ft_strcmp(str, "exit"))
-    //	ft_exit(*var, str);
+    else if(!ft_strcmp(str, "exit"))
+    	ft_exit(*my_env, str);
 	else if(!ft_strncmp(str, "cd ", 2))
 		ft_cd(str + 3, *my_env);
 	else if(!ft_strncmp(str, "echo", 5))
@@ -58,6 +49,7 @@ void	ft_launch_shell(t_list	**my_env)
 	t_list	*vars;
 	
 	vars = NULL;
+	ft_check_env(*my_env);
 	str = readline("$>");
 	while(str)
 	{	
@@ -67,7 +59,7 @@ void	ft_launch_shell(t_list	**my_env)
 		{
 			ft_handler(str, ft_get_hst(str, 0), my_env);
 			add_history(str);
-			ft_get_hst(str, 1);//printf("%s\n", my_env->content);
+			ft_get_hst(str, 1);
 		}
 		free(str);
 		str = readline("$>");
@@ -81,7 +73,6 @@ int		main(int ac, char **av, char **env)
 	t_list	*temp;
 
 	x = 1;
-	//printf("%s\n", getenv("PWD"));
 	my_env = malloc(sizeof(t_list *));
 	(*my_env) = ft_var_creation(env[0], 1);
 	temp = (*my_env);

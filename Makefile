@@ -10,7 +10,10 @@ SRC =	main.c \
 	built_ins.c \
 	env_managing.c \
 	signals.c \
-	cd.c
+	cd.c \
+	variable_utils.c \
+	printer.c \
+	tomfoolery.c
 
 PTH = source/
 

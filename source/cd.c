@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:03:19 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/31 11:59:19 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/05 14:36:04 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void		ft_cd(char *str, t_list	*my_env)
 	int		i;
 
 	i = 0;
-	while(ft_strncmp(my_env->name, "PWD", 4))
+	while(my_env && ft_strncmp(my_env->name, "PWD", 4))
 		my_env = my_env->next;
-	if(!chdir(str))
+	if(!chdir(str) && my_env)
 	{
 		if(str[0] == '/')
 		{

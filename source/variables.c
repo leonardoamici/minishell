@@ -6,66 +6,31 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 10:16:04 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/31 17:51:56 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/05 17:44:55 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_offset(char *str)
+void	var_format_check(char *var)
 {
 	int		x;
-	int		offset;
-
+	int		check;
+	int		equal_check;
+	
 	x = 0;
-	offset = 0;
-	while(str[x])
+	check = 0;
+	equal_check = 1;
+	if(var)
 	{
-		if(str[x] == '=' || str[x] == 34 || str[x] == 39)
-			offset++;
-		x++;
+		if(!ft_isalpha(var[x]))
+			check++;
+		while(var[x])
+		{
+			if(var[x] == '=')
+				equal_check--;
+		}
 	}
-	return(offset);
-}
-
-char	*ft_givename(int x, char *str)
-{
-	char	*name;
-	int		i;
-
-	i = 0;
-	name = malloc(sizeof(char) * x + 1);
-	while (str[i] != '=')
-	{
-		name[i] = str[i];
-		i++;
-	}
-	name[x] = '\0';
-	return (name);
-}
-
-char	*ft_givecontent(int x, char *str)
-{
-	char	*content;
-	int		i;
-	int		z;
-
-	i = 0;
-	z = 0;
-	content = malloc(sizeof(char) * x + 1);
-	while (str[i] != '=')
-		i++;
-	i++;
-	if(str[i] == 34 || str[i] == 39)
-		i++;
-	while(str[i] != '\0' && (str[i] != 34 || str[i] != 39))
-	{
-		content[z] = str[i];
-		z++;
-		i++;
-	}
-	content[x] = '\0';
-	return (content);
 }
 
 t_list	*ft_var_creation(char *var, int check)
@@ -77,7 +42,7 @@ t_list	*ft_var_creation(char *var, int check)
 	x = 0;
 	z = 0;
 	vars = malloc(sizeof(t_list));
-	while(var[x] != '=')
+	while(var[x] && var[x] != '=')
 		x++;
 	while(var[z])
 		z++;
@@ -91,17 +56,19 @@ t_list	*ft_var_creation(char *var, int check)
 	return(vars);
 }
 
-t_list	*ft_find_var(t_list *vars, char *str)
+t_list	*ft_new_var(t_list *env, char *var, int exp)
 {
 	t_list	*temp;
+	t_list	*vars;
 
-	temp = vars;
-	while(temp && (strcmp(temp->name ,str)))
+	temp = env;
+	while(temp->next)
 		temp = temp->next;
-	return (temp);
+	temp->next = ft_var_creation(var, exp);
+	return(temp->next);
 }
 
-void	ft_var_check(t_list *my_env, char *var)
+t_list	*ft_var_check(t_list *my_env, char *var)
 {
 	int		check;
 	t_list	*temp;
@@ -125,5 +92,6 @@ void	ft_var_check(t_list *my_env, char *var)
 		temp->content = ft_strdup(tvar->content);
 	}
 	else
-		ft_new_var(my_env, var);
+		temp = ft_new_var(my_env, var, 0);
+	return(temp);
 }

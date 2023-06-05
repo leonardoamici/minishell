@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:55:13 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/31 17:49:35 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/05 17:48:20 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,19 @@ typedef	struct	s_list
 
 //project body
 char	**ft_handler(char *str, char **hst, t_list **my_env);
+//printing
 void	ft_print_history(char **hst);
-char	**ft_get_hst(char *str, int	type);
+void	ft_print_list_exported(t_list *vars);
+void	ft_printlist(t_list *vars);
+void		ft_env(t_list *my_env);
 //var managing
-void	ft_new_var(t_list *env, char *var);
+t_list	*ft_new_var(t_list *env, char *var, int exp);
 t_list	*ft_var_creation(char *var, int check);
+int		ft_is_var(t_list *var, char *str);
+//var utils
+int		ft_offset(char *str);
+char	*ft_givename(int x, char *str);
+char	*ft_givecontent(int x, char *str);
 //built-ins
 void		ft_pwd(t_list *my_env);
 int		ft_exit(t_list *vars, char *str);
@@ -40,11 +48,12 @@ int		ft_echo(int flag, int fd, char *str);
 char	**ft_unset(t_list **vars, char *name);
 // change directory
 void		ft_cd(char *str, t_list *my_env);
-// env
-void		ft_env(t_list *my_env);
+// history
+char	**ft_get_hst(char *str, int	type);
 //env clone managing
 t_list	*ft_dup_env(char **old_env);
-void	ft_var_check(t_list *my_env, char *var);
+t_list	*ft_var_check(t_list *my_env, char *var);
+void    ft_check_env(t_list *my_env);
 //int		ft_get_env_addr(char **my_env, char *str);
 void	ft_export(t_list *vars, char *name);
 //signals
