@@ -6,13 +6,13 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 10:16:04 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/05 17:44:55 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/07 11:17:31 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	var_format_check(char *var)
+int	ft_var_format_check(char *var)
 {
 	int		x;
 	int		check;
@@ -29,8 +29,10 @@ void	var_format_check(char *var)
 		{
 			if(var[x] == '=')
 				equal_check--;
+			x++;
 		}
 	}
+	return (check + equal_check);
 }
 
 t_list	*ft_var_creation(char *var, int check)

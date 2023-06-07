@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 09:05:25 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/05 17:45:53 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/07 11:10:52 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,9 @@ void	ft_pwd(t_list *my_env)
 	}
 }
 
-void	ft_free_list(t_list *vars)
-{
-	t_list	*temp;
-
-	temp = vars;
-	while(vars)
-	{
-		free(vars->content);
-		free(vars->name);
-		vars = temp->next;
-		free(temp);
-		temp = vars;
-	}
-}
-
 int		ft_exit(t_list *vars, char *str)
 {
-	ft_free_list(vars);
+	ft_free_env(vars);
 	free(str);
 	exit(0);
 }
@@ -126,14 +111,6 @@ void	ft_export(t_list *env, char *name)
 //	ft_kill_matrix(mat);
 }
 
-int		ft_is_var(t_list *var, char *str)
-{
-	if(!ft_strcmp(var->name, str))
-		return(0);
-	else
-		return(1);
-}
-
 char	**ft_unset(t_list **vars, char *name)
 {
 	int		i;
@@ -143,7 +120,7 @@ char	**ft_unset(t_list **vars, char *name)
 	i = 0;
 	temp = (*vars)->next;
 	temp2 = (*vars);
-	if(!ft_is_var(*vars, name))
+	if(!ft_strcmp((*vars)->name, name))
 	{
 		free((*vars)->name);
 		free((*vars)->content);
@@ -154,7 +131,7 @@ char	**ft_unset(t_list **vars, char *name)
 	{
 		while(temp)
 		{
-			if(!ft_is_var(temp, name))
+			if(!ft_strcmp(temp->name, name))
 			{
 				temp2->next = temp->next;
 				free(temp->name);

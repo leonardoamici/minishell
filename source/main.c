@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:43:52 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/05 17:46:42 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/07 11:14:06 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char	**ft_handler(char *str, char **hst, t_list **my_env)
 		system("clear");
 	else if(!ft_strncmp(str, "unset", 5))
 		ft_unset(my_env, str + 6);
+	else if(!ft_var_format_check(str))
+		ft_var_check(*my_env, str);
 }
 
 void	ft_launch_shell(t_list	**my_env)
@@ -53,14 +55,14 @@ void	ft_launch_shell(t_list	**my_env)
 	str = readline("$>");
 	while(str)
 	{	
-		if (!ft_strncmp(str, "$", 1))
-			ft_var_check(*my_env, str + 1);
-		else
-		{
+	//	if (!ft_strncmp(str, "$", 1))
+	//		ft_var_check(*my_env, str + 1);
+	//	else
+	//	{
 			ft_handler(str, ft_get_hst(str, 0), my_env);
 			add_history(str);
 			ft_get_hst(str, 1);
-		}
+	//	}
 		free(str);
 		str = readline("$>");
 	}
