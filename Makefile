@@ -25,7 +25,7 @@ SRCC = 	parseutils.c \
 
 PTH = source/
 
-PTHC = source_cringe/
+PTHC = source_parse/
 
 FLAGS = -Wall -Werror -Wextra
 
