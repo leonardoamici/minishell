@@ -1,34 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   parsing_3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/10 11:44:10 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/13 15:39:20 by lamici           ###   ########.fr       */
+/*   Created: 2023/05/24 11:01:18 by abettini          #+#    #+#             */
+/*   Updated: 2023/06/13 15:39:54 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**ft_get_hst(char *str, int	type)
+void	ft_check_expand(t_prs *lst, t_list *vars)
 {
-	static char *hst[4000];
-	static int	i;
+	t_list	*temp;
+	int		y;
+	t_prs	*tmp;
 
-	if(!i)
-		hst[i] = 0;
-	if(type)
+	tmp = lst;
+	while (tmp)
 	{
-		if(hst[i] == 0)
+		tmp = vars->content;
+		y = 0;
+		while (tmp->wrd[y])
 		{
-			hst[i] = ft_strdup(str);
-			i++;
-			hst[i] = NULL;
+			tmp->wrd[y] = ft_quotes_vars(tmp->wrd[y], vars);
+			y++;
 		}
-		return(hst);
+		y = 0;
+		while (tmp->red[y])
+		{
+			tmp->red[y] = ft_quotes_vars(tmp->red[y], vars);
+			y++;
+		}
+		tmp = tmp->next;
 	}
-	else
-		return(hst);
 }

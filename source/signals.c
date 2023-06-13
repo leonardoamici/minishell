@@ -6,11 +6,11 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 09:08:10 by lamici            #+#    #+#             */
-/*   Updated: 2023/05/24 10:38:15 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/13 15:39:17 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_nothing(int signal)
 {

@@ -6,11 +6,11 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:45:44 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/05 17:47:10 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/13 15:39:18 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_env(t_list *my_env)
 {

@@ -6,11 +6,11 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:09:08 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/05 17:44:14 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/13 15:39:15 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int		ft_offset(char *str)
 {

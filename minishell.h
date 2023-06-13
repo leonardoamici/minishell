@@ -6,17 +6,18 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:55:13 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/07 11:12:38 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/13 15:40:05 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../Libft/libft.h"
+# include "Libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <stdbool.h>
 
 typedef	struct	s_list
 {
@@ -25,6 +26,14 @@ typedef	struct	s_list
 	int		exp_check;
 	struct s_list *next;
 } 				t_list;
+
+typedef	struct	s_prs
+{
+	char **wrd;
+	char **red;
+	struct s_prs	*next;
+}				t_prs;
+
 
 //project body
 char		**ft_handler(char *str, char **hst, t_list **my_env);
@@ -61,6 +70,16 @@ void		ft_free_env(t_list *vars);
 void		ft_export(t_list *vars, char *name);
 //signals
 void		ft_sighandler(void);
+//parsing
+int	ft_is_special(char c);
+int	ft_isspace(char c);
+t_prs 	*ft_parsing(char *str);
+int		ft_char_char_len(char *str, char c);
+int		ft_red_len(char *str);
+int		ft_wrd_len(char *str);
+int		ft_red_count(char *str);
+int		ft_wrd_count(char *str);
+void	ft_print_lst(t_prs *lst);
 
 void	print_ancestor(void);
 void	print_abettini(void);

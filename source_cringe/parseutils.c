@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   parseutils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/10 11:44:10 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/13 15:39:20 by lamici           ###   ########.fr       */
+/*   Created: 2023/05/11 12:03:28 by abettini          #+#    #+#             */
+/*   Updated: 2023/06/13 15:39:36 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**ft_get_hst(char *str, int	type)
+int	ft_is_special(char c)
 {
-	static char *hst[4000];
-	static int	i;
+	const char	*str;
+	int			i;
 
-	if(!i)
-		hst[i] = 0;
-	if(type)
+	str = "|><";
+	i = 0;
+	while (str[i])
 	{
-		if(hst[i] == 0)
-		{
-			hst[i] = ft_strdup(str);
-			i++;
-			hst[i] = NULL;
-		}
-		return(hst);
+		if (c == str[i])
+			return (1);
+		i++;
 	}
-	else
-		return(hst);
+	return (0);
+}
+
+int	ft_isspace(char c)
+{
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (1);
+	return (0);
 }
