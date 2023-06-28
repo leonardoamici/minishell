@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:03:19 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/13 15:39:23 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/28 14:46:37 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,17 @@ char	*ft_relative_cd(char *my_cd, char *str)
 	char *temp;
 	char *result;
 
-	temp = ft_strjoin(my_cd, "/");
+	if(my_cd[ft_strlen(my_cd) - 1] != '/')
+		temp = ft_strjoin(my_cd, "/");
+	else
+		temp = ft_strdup(my_cd);
 	result = ft_strjoin(temp, str);
 	free(temp);
 	free(my_cd);
 	return(result);
 }
 
-void		ft_cd(char *str, t_list	*my_env)
+void		ft_cd(t_list *my_env, char *str)
 {
 	char	*temp;
 	char	**moves;
@@ -74,8 +77,8 @@ void		ft_cd(char *str, t_list	*my_env)
 					my_env->content = ft_relative_cd(my_env->content, moves[i]);
 				i++;
 			}
+			ft_kill_matrix(moves);
 		}
-		ft_kill_matrix(moves);
 	}
 	else
 		perror("Error");

@@ -6,24 +6,36 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 09:05:25 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/13 15:41:52 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/28 14:45:18 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		ft_echo(int flag, int fd, char *str)
+void	ft_echo(char **args)
 {
 	int		i;
+	int		j;
+	bool	flag;
 
 	i = 0;
-	while(str[i] != '\0')
+	flag = 0;
+	if (*args && !ft_strncmp(*args, "-n", 3))
+		flag = ++i;
+	while (args[i])
 	{
-		write(fd, &str[i], 1);
+		j = 0;
+		while (args[i][j])
+		{
+			write(STDOUT_FILENO, &args[i][j], 1);
+			j++;
+		}
 		i++;
+		if (args[i])
+			write(STDOUT_FILENO, " ", 1);
 	}
-	if(!flag)
-		write(1, "\n", 1);
+	if (!flag)
+		write(STDOUT_FILENO, "\n", 1);
 }
 
 void	ft_pwd(t_list *my_env)

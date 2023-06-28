@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 09:08:10 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/13 15:39:17 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/14 10:48:32 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_nothing(int signal)
 
 void	ft_newprompt(int signal)
 {
-	write(1, "\n", 1);
+	execve("./minishell", (char **)"./minishell", NULL);
 }
 
 void	ft_sighandler(void)

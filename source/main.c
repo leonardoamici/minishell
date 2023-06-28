@@ -6,59 +6,36 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:43:52 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/13 15:39:19 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/28 14:54:02 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**ft_handler(char *str, char **hst, t_list **my_env)
+void	ft_init(t_msh *msh, t_list *env, t_prs *cmd)
 {
-	int		i;
-	
-	i = 0;
-	if (!ft_strncmp(str, "history", 7))
-		ft_print_history(hst);
-	else if(!ft_strcmp(str, "vars"))
-		ft_printlist(*my_env);
-	else if(!ft_strcmp(str, "pwd"))
-		ft_pwd(*my_env);
-	else if(!ft_strcmp(str, "env"))
-		ft_env(*my_env);
-    else if(!ft_strcmp(str, "exit"))
-    	ft_exit(*my_env, str);
-	else if(!ft_strncmp(str, "cd ", 2))
-		ft_cd(str + 3, *my_env);
-	else if(!ft_strncmp(str, "echo", 5))
-		ft_echo(0, 1, str + 5);
-	else if(!ft_strncmp(str, "export", 6))
-		ft_export(*my_env, str + 7);
-	else if(!ft_strncmp(str, "ancestor", 8))
-		print_ancestor();
-	else if(!ft_strncmp(str, "abettini", 8))
-		print_abettini();
-	else if(!ft_strncmp(str, "clear", 6))
-		system("clear");
-	else if(!ft_strncmp(str, "unset", 5))
-		ft_unset(my_env, str + 6);
-	else if(!ft_var_format_check(str))
-		ft_var_check(*my_env, str);
+	msh->my_env = env;
+	msh->cmd = cmd;
+	msh->exit = 0;
+	msh->std[0] = dup(0);
+	msh->std[1] = dup(1);
+	msh->fd[0] = -2;
+	msh->fd[1] = -2;
 }
-
-void	ft_launch_shell(t_list	**my_env)
+void	ft_launch_shell(t_msh *msh)
 {	
 	char *str;
 	t_list	*vars;
-	t_prs *parse;
 	
 	vars = NULL;
-	ft_check_env(*my_env);
+	ft_check_env(msh->my_env);
+	ft_sighandler();
 	str = readline("$>");
 	while(str)
 	{
-		//ft_handler(str, ft_get_hst(str, 0), my_env);
-		parse = ft_parsing(str);
-		ft_print_lst(parse);
+		ft_get_hst(str, 0);
+		ft_parsing(msh->cmd, str, msh->my_env);
+		msh->exit = ft_pipes(msh->cmd, msh);
 		add_history(str);
 		ft_get_hst(str, 1);
 		free(str);
@@ -66,24 +43,28 @@ void	ft_launch_shell(t_list	**my_env)
 	}
 }
 
+
 int		main(int ac, char **av, char **env)
 {
 	int		x;
-	t_list	**my_env;
+	t_list	*my_env;
 	t_list	*temp;
+	t_msh	msh;
+	t_prs	cmd;
 
 	x = 1;
 	my_env = malloc(sizeof(t_list *));
-	(*my_env) = ft_var_creation(env[0], 1);
-	temp = (*my_env);
+	my_env = ft_var_creation(env[0], 1);
+	temp = my_env;
 	while(env[x])
 	{
-		(*my_env)->next = ft_var_creation(env[x], 1);
-		(*my_env) = (*my_env)->next;
+		my_env->next = ft_var_creation(env[x], 1);
+		my_env = my_env->next;
 		x++;
 	}
-	*my_env = temp;
-	ft_launch_shell(my_env);
+	my_env = temp;
+	ft_init(&msh, my_env, &cmd);
+	ft_launch_shell(&msh);
 	ac = 0;
 	av = 0;
 	return (0);
