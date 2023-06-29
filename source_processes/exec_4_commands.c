@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 09:54:25 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/28 15:35:21 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/29 11:10:18 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	ft_execution(char **wrd, t_msh *msh)
 	//	ret = ft_exit(msh);
 	else if (ft_strchr(*wrd, '=') && *wrd[0] != '=')
 	{
-		ft_var_check(msh->my_env, *wrd);
+		ft_var_check(msh->my_env, *wrd); 
 		ret = ft_execution(wrd + 1, msh);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:55:13 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/28 15:24:25 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/29 16:36:54 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 
 typedef	struct	s_list
 {
-	char *content;
 	char *name;
+	char *content;
 	int		exp_check;
 	struct s_list *next;
 } 				t_list;
@@ -89,12 +89,12 @@ void		ft_sighandler(void);
 //parsing
 int		ft_is_special(char c);
 int		ft_isspace(char c);
-void	ft_parsing(t_prs *prs, char *str, t_list *my_env);
+void	ft_parsing(t_prs **prs, char *str, t_list **my_env);
 char	*ft_get_var_cont(char *var_name, t_list *vars);
 void	ft_quotes_vars_cpy(char *line, char *str, t_list *vars);
 int		ft_quotes_vars_len(char *str, t_list *vars);
 int		ft_char_char_len(char *str, char c);
-void	ft_check_expand(t_prs *lst, t_list *vars);
+void	ft_check_expand(t_prs **lst, t_list *vars);
 int		ft_red_len(char *str);
 int		ft_wrd_len(char *str);
 int		ft_red_count(char *str);

@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 09:56:38 by lamici            #+#    #+#             */
-/*   Updated: 2023/03/08 11:44:12 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/29 11:23:13 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int		ft_matrix(char **mat);
 char	*get_next_line(int fd);
 int		ft_matlen(char **mat);
 void	ft_kill_matrix(char **mat);
+void	ft_print_matrix(char **mat);
 int		ft_strcmp(char *str1, char *str2);
 
 #endif

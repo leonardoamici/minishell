@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:03:09 by abettini          #+#    #+#             */
-/*   Updated: 2023/06/28 14:39:18 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/29 15:12:39 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static t_prs	*ft_parse_node(void)
 	parse->next = NULL;
 	return(parse);
 }
-static void	*ft_first_split(t_prs *parse, char *str)
+static void	*ft_first_split(t_prs **parse, char *str)
 {
 	t_prs	*tmp;
 	int		i;
@@ -83,8 +83,8 @@ static void	*ft_first_split(t_prs *parse, char *str)
 	int		rc;
 
 	i = 0;
-	parse = ft_parse_node();
-	tmp = parse;
+	(*parse) = ft_parse_node();
+	tmp = (*parse);
 	while (str[i])
 	{
 		rc = ft_red_count(&str[i]);
@@ -102,8 +102,8 @@ static void	*ft_first_split(t_prs *parse, char *str)
 	}
 }
 
-void	ft_parsing(t_prs *prs, char *str, t_list *my_env)
+void	ft_parsing(t_prs **prs, char *str, t_list **my_env)
 {
 	ft_first_split(prs, str);
-	ft_check_expand(prs, my_env);
+	ft_check_expand(prs, *my_env);
 }

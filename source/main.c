@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:43:52 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/28 14:54:02 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/29 15:55:04 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ void	ft_launch_shell(t_msh *msh)
 	vars = NULL;
 	ft_check_env(msh->my_env);
 	ft_sighandler();
-	str = readline("$>");
+	str = readline("forzanapoli>");
 	while(str)
 	{
-		ft_get_hst(str, 0);
-		ft_parsing(msh->cmd, str, msh->my_env);
+		//ft_get_hst(str, 0);
+		ft_parsing(&msh->cmd, str, &msh->my_env);
 		msh->exit = ft_pipes(msh->cmd, msh);
 		add_history(str);
 		ft_get_hst(str, 1);
-		free(str);
-		str = readline("$>");
+		//free(str);
+		str = readline("forzanapoli>");
 	}
 }
 

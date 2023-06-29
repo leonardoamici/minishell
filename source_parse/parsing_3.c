@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:01:18 by abettini          #+#    #+#             */
-/*   Updated: 2023/06/28 14:59:03 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/29 11:27:48 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_quotes_vars(char *str, t_list *vars)
 {
 	int		len;
 	char	*line;
-
+	
 	len = ft_quotes_vars_len(str, vars);
 	line = malloc(sizeof(char) * (len + 1));
 	if (!line)
@@ -45,13 +45,12 @@ char	*ft_quotes_vars(char *str, t_list *vars)
 	return (line);
 }
 
-void	ft_check_expand(t_prs *lst, t_list *vars)
+void	ft_check_expand(t_prs **lst, t_list *vars)
 {
-	t_list	*temp;
 	t_prs	*tmp;
 	int		y;
 
-	tmp = lst;
+	tmp = (*lst);
 	while (tmp)
 	{
 		y = 0;
