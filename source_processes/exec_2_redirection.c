@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 14:11:01 by abettini          #+#    #+#             */
-/*   Updated: 2023/06/28 10:35:51 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/04 11:50:01 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,6 @@ void	ft_reset_redir(t_msh *msh)
 		close(msh->fd[1]);
 	msh->fd[1] = -2;
 	dup2(msh->std[1], 1);
+	if (access("/tmp/.heredoc", R_OK))
+		unlink("/tmp/.heredoc");
 }

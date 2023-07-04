@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cdm_err_check.c                                    :+:      :+:    :+:   */
+/*   cmd_err_check_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/12 16:10:50 by abettini          #+#    #+#             */
-/*   Updated: 2023/06/13 15:39:32 by lamici           ###   ########.fr       */
+/*   Created: 2023/07/04 14:20:00 by lamici            #+#    #+#             */
+/*   Updated: 2023/07/04 14:20:09 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_max_consec_char(char *str, char c)
 	count_max = 0;
 	count_tmp = 0;
 	i = 0;
-	while (str[i])
+	while (str[i] && str[i] != '\'' && str[i] != '\"')
 	{
 		if (str[i] == c)
 			count_tmp++;
@@ -46,7 +46,7 @@ int	ft_check_weird_1(char *str)
 
 	check = 0;
 	i = 0;
-	while (str[i])
+	while (str[i] && str[i] != '\'' && str[i] != '\"')
 	{
 		if (!ft_isspace(str[i]) && !(str[i] == '>' || str[i] == '<'))
 			check = 0;
@@ -69,11 +69,10 @@ int	ft_check_weird_2(char *str, char c)
 {
 	int		i;
 	int		check;
-	char	tmp;
 
 	check = 0;
 	i = 0;
-	while (str[i])
+	while (str[i] && str[i] != '\'' && str[i] != '\"')
 	{
 		if (!ft_isspace(str[i]) && str[i] != c)
 			check = 0;
@@ -83,20 +82,17 @@ int	ft_check_weird_2(char *str, char c)
 			check = 1;
 		i++;
 	}
-	if (check)
-		return (1);
-	return (0);
+	if (str[i] == '\'' || str[i] == '\"')
+		check = 0;
+	return (check);
 }
 
 int	ft_check_weird_3(char *str, char c)
 {
 	int		i;
-	int		check;
-	char	tmp;
 
-	check = 0;
 	i = 0;
-	while (str[i])
+	while (str[i] && str[i] != '\'' && str[i] != '\"')
 	{
 		if (str[i] == c)
 		{
@@ -110,24 +106,5 @@ int	ft_check_weird_3(char *str, char c)
 		else
 			i++;
 	}
-	return (0);
-}
-
-int	ft_check_cmd_err(char *str)
-{
-	if (ft_max_consec_char(str, '|') > 1)
-		return (printf("syntax error\n") * 0 + 1);
-	if (ft_max_consec_char(str, '>') > 2)
-		return (printf("syntax error\n") * 0 + 1);
-	if (ft_max_consec_char(str, '<') > 2)
-		return (printf("syntax error\n") * 0 + 1);
-	if (ft_check_weird_1(str))
-		return (printf("syntax error\n") * 0 + 1);
-	if (ft_check_weird_2(str, '|'))
-		return (printf("syntax error\n") * 0 + 1);
-	if (ft_check_weird_3(str, '>'))
-		return (printf("syntax error\n") * 0 + 1);
-	if (ft_check_weird_3(str, '<'))
-		return (printf("syntax error\n") * 0 + 1);
 	return (0);
 }

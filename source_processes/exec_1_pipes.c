@@ -5,20 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/26 10:39:29 by aconta            #+#    #+#             */
-/*   Updated: 2023/06/29 15:57:41 by lamici           ###   ########.fr       */
+/*   Created: 2023/05/26 10:39:29 by gmorelli          #+#    #+#             */
+/*   Updated: 2023/07/04 15:35:59 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+extern int g_exit;
 
 int	ft_single_node(t_prs *cmd, t_msh *msh, int fd_in, int fd_out)
 {
 	int	ret;
 
-	ft_redirects(cmd, msh);
-	ft_choose_redir(msh, fd_in, fd_out);
-	ret = ft_execution(cmd->wrd, msh);
+	ret = ft_redirects(cmd, msh);
+	if(!ret)
+	{
+		ft_choose_redir(msh, fd_in, fd_out);
+		ret = ft_execution(cmd->wrd, msh);
+	}
 	ft_reset_redir(msh);
 	return (ret);
 }
@@ -32,14 +36,20 @@ int	ft_handle_node(t_prs *cmd, t_msh *msh, int fd_in, int fd_out)
 	pid = fork();
 	if (!pid)
 	{
-		ft_redirects(cmd, msh);
-		ft_choose_redir(msh, fd_in, fd_out);
-		ret = ft_execution(cmd->wrd, msh);
+		if(!ft_redirects(cmd, msh))
+		{
+			ft_choose_redir(msh, fd_in, fd_out);
+			ret = ft_execution(cmd->wrd, msh);
+		}
 		ft_freevars(msh->my_env);
 		ft_free_cmdlst(msh->cmd);
-		exit(ret);
+		exit(g_exit);
 	}
 	waitpid(pid, &exit_code, 0);
+	if(WIFEXITED(exit_code))
+		exit_code = WEXITSTATUS(exit_code);
+	if(WIFSIGNALED(exit_code))
+		exit_code = WTERMSIG(exit_code);
 	close(fd_in);
 	return (0);
 }
@@ -48,7 +58,7 @@ int	ft_pipes_handler(t_prs *cmd, t_msh *msh, int fd_out)
 {
 	int	fd[2];
 
-	if (cmd->next)
+	if (!cmd->next)
 	{
 		fd[0] = dup(msh->std[0]);
 		fd[1] = -2;

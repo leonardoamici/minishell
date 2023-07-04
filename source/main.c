@@ -6,11 +6,13 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:43:52 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/29 15:55:04 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/04 16:55:47 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int g_exit = 0;
 
 void	ft_init(t_msh *msh, t_list *env, t_prs *cmd)
 {
@@ -30,16 +32,20 @@ void	ft_launch_shell(t_msh *msh)
 	vars = NULL;
 	ft_check_env(msh->my_env);
 	ft_sighandler();
-	str = readline("forzanapoli>");
+	str = readline("$>");
 	while(str)
 	{
-		//ft_get_hst(str, 0);
-		ft_parsing(&msh->cmd, str, &msh->my_env);
-		msh->exit = ft_pipes(msh->cmd, msh);
+		ft_get_hst(str, 0);
 		add_history(str);
+		if(*str && !ft_check_cmd_err(str))
+		{
+			ft_parsing(&msh->cmd, str, &msh->my_env);
+			ft_pipes(msh->cmd, msh);
+			//printf("exit status was = %d\n", g_exit);
+			//free(str);
+		}
 		ft_get_hst(str, 1);
-		//free(str);
-		str = readline("forzanapoli>");
+		str = readline("$>");
 	}
 }
 

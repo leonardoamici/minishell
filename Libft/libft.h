@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 09:56:38 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/29 11:23:13 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/30 15:27:03 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+//printf
 int		ft_char(int c);
 int		ft_digit(int n);
 int		ft_hexd(unsigned int n, char format);
@@ -73,10 +74,19 @@ int		ft_printf(const char *str, ...);
 int		ft_string(char *str);
 int		ft_unsigned(unsigned int n);
 int		ft_matrix(char **mat);
+//printf_fd
+int		ft_char_fd(int fd, int c);
+int		ft_digit_fd(int fd, int n);
+int		ft_hexd_fd(int fd, unsigned int n, char format);
+int		ft_path_fd(int fd, unsigned long int n);
+int		ft_printf_fd(int fd, const char *str, ...);
+int		ft_string_fd(int fd, char *str);
+int		ft_unsigned_fd(int fd, unsigned int n);
+int		ft_matrix_fd(int fd, char **mat);
+
 char	*get_next_line(int fd);
 int		ft_matlen(char **mat);
 void	ft_kill_matrix(char **mat);
-void	ft_print_matrix(char **mat);
 int		ft_strcmp(char *str1, char *str2);
 
 #endif

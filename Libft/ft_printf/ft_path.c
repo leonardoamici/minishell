@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_path.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamici <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 10:55:20 by lamici            #+#    #+#             */
-/*   Updated: 2022/10/21 10:57:02 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/30 15:32:58 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static void	prova(unsigned long int n)

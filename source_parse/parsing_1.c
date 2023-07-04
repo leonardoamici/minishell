@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:03:09 by abettini          #+#    #+#             */
-/*   Updated: 2023/06/29 15:12:39 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/04 15:35:19 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,11 @@ static void	*ft_first_split(t_prs **parse, char *str)
 		while (ft_isspace(str[i]) || str[i] == '|')
 			i++;
 		if(str[i])
-			tmp->next = ft_parse_node();
-		tmp = tmp->next;
+		{
+			tmp = ft_parse_node();
+			tmp->next = *parse;
+			(*parse) = tmp;
+		}
 	}
 }
 

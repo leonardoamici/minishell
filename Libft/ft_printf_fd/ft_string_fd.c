@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   excecutor.c                                        :+:      :+:    :+:   */
+/*   ft_string_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/13 16:38:09 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/14 11:15:23 by lamici           ###   ########.fr       */
+/*   Created: 2022/10/21 09:43:01 by lamici            #+#    #+#             */
+/*   Updated: 2023/06/30 15:34:01 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-void	ft_executor(char *str)
+int	ft_string_fd(int fd, char *str)
 {
-	char *mat[2];
-	int		pid;
+	int	x;
 
-	pid = getpid();
-	mat[0] = "name";
-	mat[1] = 0;
-	fork();
-	if(pid != getpid() && !execve(str, mat, 0))
-		;
-	else if (pid != getpid())
-		perror("Error");
-	else
-		pause();
+	x = 0;
+	if (str == 0)
+	{
+		write(fd, "(null)", 6);
+		return (6);
+	}
+	while (str[x] != '\0')
+	{
+		write(fd, &str[x], 1);
+		x++;
+	}
+	return (x);
 }

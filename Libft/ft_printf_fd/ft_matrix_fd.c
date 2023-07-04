@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_matrix.c                                  :+:      :+:    :+:   */
+/*   ft_matrix_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 11:19:28 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/29 11:21:25 by lamici           ###   ########.fr       */
+/*   Created: 2022/12/14 09:06:35 by lamici            #+#    #+#             */
+/*   Updated: 2023/06/30 15:33:44 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
-void	ft_print_matrix(char **mat)
+int	ft_matrix_fd(int fd, char **mat)
 {
-	int		x;
+	int	x;
+	int	y;
+	int	count;
 
-	x = 0;
-	while(mat && mat[x])
+	y = 0;
+	count = 0;
+	while (mat[y] != 0)
 	{
-		ft_printf("%s\n", mat[x]);
-		x++;
+		x = 0;
+		while (mat[y][x] != '\0')
+		{
+			write(fd, &mat[y][x], 1);
+			x++;
+			count++;
+		}
+		write(fd, "\n", 1);
+		y++;
 	}
+	return (count);
 }

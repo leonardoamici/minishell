@@ -6,11 +6,13 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:03:19 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/28 14:46:37 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/04 16:32:03 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int g_exit;
 
 char	*ft_go_back(char *my_pwd)
 {
@@ -48,7 +50,7 @@ char	*ft_relative_cd(char *my_cd, char *str)
 	return(result);
 }
 
-void		ft_cd(t_list *my_env, char *str)
+static void	ft_cd_1_arg(t_list *my_env, char *str)
 {
 	char	*temp;
 	char	**moves;
@@ -59,6 +61,7 @@ void		ft_cd(t_list *my_env, char *str)
 		my_env = my_env->next;
 	if(!chdir(str) && my_env)
 	{
+		g_exit = 0;
 		if(str[0] == '/')
 		{
 			free(my_env->content);
@@ -81,5 +84,33 @@ void		ft_cd(t_list *my_env, char *str)
 		}
 	}
 	else
-		perror("Error");
+	{
+		g_exit = 1;
+		perror("cd");
+	}
+}
+
+static void ft_cd_no_args(t_list *my_env)
+{
+	t_list	*home;
+
+	home = (ft_find_var(my_env, "HOME"));
+	if (home)
+		ft_cd_1_arg(my_env, home->content);
+}
+
+void	ft_cd(t_list *my_env, char **args)
+{
+	int	ret;
+
+	ret = 1;
+	if (args[0] && args[1])
+	{
+		ft_printf_fd(2, "minishell: cd: too many arguments\n");
+		g_exit = 1;
+	}
+	else if (!args[0] || (args[0][0] == '~' && !args[0][1]))
+		ft_cd_no_args(my_env);
+	else
+		ft_cd_1_arg(my_env, args[0]);
 }

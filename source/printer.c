@@ -6,22 +6,27 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:45:44 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/13 15:39:18 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/30 12:08:10 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+extern int g_exit;
+
 void	ft_env(t_list *my_env)
 {
 	t_list	*temp;
 
+	g_exit = 0;
 	temp = my_env;
+	if(!temp)
+		g_exit = 1;
 	while(temp)
 	{
 		if(temp->exp_check == 1)
 			printf("%s=%s\n", temp->name, temp->content);
-		temp = temp->next;
+		temp = temp->next;	
 	}
 }
 

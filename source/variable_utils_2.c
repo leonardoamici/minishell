@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_char.c                                          :+:      :+:    :+:   */
+/*   variable_utils_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/21 09:34:47 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/30 15:34:22 by lamici           ###   ########.fr       */
+/*   Created: 2023/07/04 16:08:54 by lamici            #+#    #+#             */
+/*   Updated: 2023/07/04 16:12:20 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-int	ft_char(int c)
+int ft_equal_check(char *str)
 {
-	write(1, &c, 1);
-	return (1);
+    int     i;
+    int     check;
+
+    i = 0;
+    check = 0;
+    while(str && str[i] && !check)
+    {
+        if(str[i] == '=')
+            check = 1;
+        i++;
+    }
+    return(check);
 }

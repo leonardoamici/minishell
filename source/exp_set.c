@@ -6,11 +6,13 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:41:31 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/13 15:42:07 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/04 16:29:54 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int g_exit;
 
 void 	ft_no_eq(t_list *env, char *name)
 {
@@ -34,45 +36,34 @@ void 	ft_no_eq(t_list *env, char *name)
 	}
 }
 
-void	ft_export(t_list *env, char *name)
+void	ft_export(t_list *env, char **mat)
 {
 	t_list	*temp;
-	char 	**mat;
-	int		eq_check;
 	int		i;
-	int		y;
 
-	mat = ft_split(name, ' ');
 	i = 0;
-	y = 0;
-	eq_check = 1;
-	if (*mat)
+	g_exit = 0;
+	if(!*mat)
+		ft_print_list_exported(env);
+	while (mat && *mat)
 	{
-		while(mat[y][i] && eq_check)
+		if (ft_var_name_check(*mat, 1))
 		{
-			if(mat[y][i] == '=')
-				eq_check--;
-			i++;
+			ft_printf_fd(2, "minishell:`%s' : not a valid identifier", *mat);
+			g_exit = 1;
 		}
-		if(eq_check)
-			ft_no_eq(env, name);
+		else if (!ft_equal_check(*mat))
+			ft_no_eq(env, *mat);
 		else
 		{
-			while(*mat)
-			{
-				temp = ft_var_check(env, *mat);
-				temp->exp_check = 1;
-				mat++;
-			}
+			temp = ft_var_check(env, *mat);
+			temp->exp_check = 1;
 		}
-		y++;
+		mat++;
 	}
-	else
-		ft_print_list_exported(env);
-//	ft_kill_matrix(mat);
 }
 
-char	**ft_unset(t_list **vars, char *name)
+static void	ft_unset_var(t_list **vars, char *name)
 {
 	int		i;
 	t_list	*temp;
@@ -102,6 +93,49 @@ char	**ft_unset(t_list **vars, char *name)
 			}
 			temp2 = temp2->next;
 			temp = temp->next;
+		}
+	}
+}
+
+static int	ft_unset_check(char *str)
+{
+	int	i;
+
+	i = 0;
+	g_exit = 0;
+	if (ft_isalpha(str[i]))
+	{
+		i++;
+		while (str[i] && !g_exit)
+		{
+			if (ft_isalnum(str[i]))
+				i++;
+			else
+				g_exit = 1;
+		}
+	}
+	else
+		g_exit = 1;
+	if (g_exit)
+		return(printf("minishell: unset: `%s': not a valid identifier\n", str));
+	else
+		return (0);
+}
+
+void	ft_unset(t_list **my_env, char **args)
+{
+	int	i;
+	int	ret;
+
+	ret = 0;
+	if (args && *args)
+	{
+		i = 0;
+		while (args[i])
+		{
+			if (!ft_unset_check(args[i]))
+				ft_unset_var(my_env, args[i]);
+			i++;
 		}
 	}
 }

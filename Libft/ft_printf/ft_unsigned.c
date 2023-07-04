@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unsigned.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamici <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 09:52:57 by lamici            #+#    #+#             */
-/*   Updated: 2022/10/21 10:32:55 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/30 15:33:16 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static void	prova(unsigned int n)

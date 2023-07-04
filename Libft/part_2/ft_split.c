@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamici <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 10:57:08 by lamici            #+#    #+#             */
-/*   Updated: 2022/10/12 10:57:34 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/30 14:35:31 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static int	ft_count(char const *s, char c)
@@ -44,7 +45,7 @@ static size_t	ft_superstrlen(const char *s, char c)
 	return (i);
 }
 
-char	**ft_split(const char *s, char c)
+char	**ft_splitter(const char *s, char c)
 {
 	int		i;
 	int		ns;
@@ -71,4 +72,12 @@ char	**ft_split(const char *s, char c)
 	}
 	str[j] = 0;
 	return (str);
+}
+
+char	**ft_split(const char *str, char c)
+{
+	if(str)
+		return(ft_splitter(str, c));
+	else
+		return(NULL);
 }

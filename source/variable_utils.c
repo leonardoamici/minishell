@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:09:08 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/13 15:39:15 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/04 16:30:10 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,23 @@ t_list	*ft_find_var(t_list *vars, char *str)
 	while(temp && (strcmp(temp->name ,str)))
 		temp = temp->next;
 	return (temp);
+}
+
+int		ft_var_name_check(char *str, int check)
+{
+	int	i;
+
+	i = 1;
+	if(str[0] && ft_isalpha(str[0]))
+	{
+		while(str[i] && ((str[i] != '=' && check == 1) || !check))
+		{
+			if(!ft_isalnum(str[i]))
+				return(1);
+			i++;
+		}
+	}
+	else
+		return (1);
+	return (0);
 }

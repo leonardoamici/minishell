@@ -14,22 +14,28 @@ SRC =	main.c \
 	signals.c \
 	cd.c \
 	variable_utils.c \
+	variable_utils_2.c \
 	printer.c \
+	exit.c \
 	tomfoolery.c \
-	excecutor.c
+	cmd_err_check.c \
+	cmd_err_check_2.c
 
 SRCC = 	parseutils.c \
 	parseutils2.c \
+	print_cmd_nodes.c \
 	parsing_1.c \
 	parsing_2.c \
-	print_cmd_nodes.c \
 	parsing_3.c \
-	parsing_4.c
+	parsing_4.c \
+	parsing_5.c
 
 SRCE =	exec_1_pipes.c \
 	exec_2_redirection.c \
 	exec_3_file_redir.c \
-	exec_4_commands.c
+	exec_4_commands.c \
+	exec_5_trypath.c \
+	heredoc.c
 
 PTH = source/
 

@@ -6,11 +6,13 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 09:05:25 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/28 14:45:18 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/04 14:42:13 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int g_exit;
 
 void	ft_echo(char **args)
 {
@@ -20,6 +22,7 @@ void	ft_echo(char **args)
 
 	i = 0;
 	flag = 0;
+	g_exit = 0;
 	if (*args && !ft_strncmp(*args, "-n", 3))
 		flag = ++i;
 	while (args[i])
@@ -53,11 +56,8 @@ void	ft_pwd(t_list *my_env)
 		else
 			temp = temp->next;
 	}
-}
-
-int		ft_exit(t_list *vars, char *str)
-{
-	ft_free_env(vars);
-	free(str);
-	exit(0);
+	if(temp)
+		g_exit = 0;
+	else
+		g_exit = 1;
 }

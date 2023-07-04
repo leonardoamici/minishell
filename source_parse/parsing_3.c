@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:01:18 by abettini          #+#    #+#             */
-/*   Updated: 2023/06/29 11:27:48 by lamici           ###   ########.fr       */
+/*   Updated: 2023/06/30 10:35:43 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_get_var_cont(char *var_name, t_list *vars)
 
 	len = ft_strlen(var_name);
 	tmp = vars;
-	while (tmp && ft_strncmp(var_name, tmp->name, len + 1))
+	while (tmp && ft_strcmp(var_name, tmp->name))
 		tmp = tmp->next;
 	if (tmp)
 		return (tmp->content);

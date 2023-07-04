@@ -1,57 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_digit.c                                         :+:      :+:    :+:   */
+/*   ft_hexd_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/21 09:47:24 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/30 15:32:47 by lamici           ###   ########.fr       */
+/*   Created: 2022/10/21 10:33:44 by lamici            #+#    #+#             */
+/*   Updated: 2023/06/30 15:34:55 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	ft_stampa(int n)
+static void	prova(int fd, unsigned int n, char format)
 {
-	if (n == -2147483648)
+	if (n >= 16)
 	{
-		write(1, "-2147483648", 11);
-		return ;
+		prova(fd, n / 16, format);
+		prova(fd, n % 16, format);
 	}
-	if (n < 0)
+	else if (n > 9)
 	{
-		write(1, "-", 1);
-		n = -n;
-	}
-	if (n >= 10)
-	{
-		ft_stampa(n / 10);
-		ft_stampa(n % 10);
+		if (format == 'x')
+			n = n + 87;
+		else
+			n = n + 55;
+		write(fd, &n, 1);
 	}
 	else
 	{
 		n = n + 48;
-		write(1, &n, 1);
+		write(fd, &n, 1);
 	}
 }
 
-int	ft_digit(int n)
+int	ft_hexd_fd(int fd, unsigned int n, char format)
 {
-	long			x;
+	unsigned int	x;
 	int				y;
 
 	y = 1;
 	x = n;
-	ft_stampa(n);
-	if (x < 0)
+	prova(fd, n, format);
+	while (x >= 16)
 	{
-		y++;
-		x = -x;
-	}
-	while (x >= 10)
-	{
-		x = x / 10;
+		x = x / 16;
 		y++;
 	}
 	return (y);
