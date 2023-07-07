@@ -6,13 +6,13 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:03:19 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/04 16:32:03 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 16:08:37 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-extern int g_exit;
+extern int	g_exit;
 
 char	*ft_go_back(char *my_pwd)
 {
@@ -21,11 +21,11 @@ char	*ft_go_back(char *my_pwd)
 	char	*new_pwd;
 
 	x = ft_strlen(my_pwd);
-	while(my_pwd[x] != '/')
+	while (my_pwd[x] != '/')
 		x--;
 	new_pwd = malloc(sizeof(char) * x + 1);
 	z = 0;
-	while(z < x)
+	while (z < x)
 	{
 		new_pwd[z] = my_pwd[z];
 		z++;
@@ -35,62 +35,60 @@ char	*ft_go_back(char *my_pwd)
 	return (new_pwd);
 }
 
-char	*ft_relative_cd(char *my_cd, char *str)
+char	*ft_relative_cd(char *my_cd, char *moves, t_list *my_env)
 {
-	char *temp;
-	char *result;
+	char	*temp;
+	char	*result;
 
-	if(my_cd[ft_strlen(my_cd) - 1] != '/')
-		temp = ft_strjoin(my_cd, "/");
+	result = my_env->content;
+	if (moves[0] == '.' && moves[1] == '.' && !moves[2])
+		result = ft_go_back(my_env->content);
+	else if (moves[0] == '.' && !moves[1])
+		;
 	else
-		temp = ft_strdup(my_cd);
-	result = ft_strjoin(temp, str);
-	free(temp);
-	free(my_cd);
-	return(result);
+	{
+		if (my_cd[ft_strlen(my_cd) - 1] != '/')
+			temp = ft_strjoin(my_cd, "/");
+		else
+			temp = ft_strdup(my_cd);
+		result = ft_strjoin(temp, moves);
+		free(temp);
+		free(my_cd);
+	}
+	return (result);
 }
 
 static void	ft_cd_1_arg(t_list *my_env, char *str)
 {
-	char	*temp;
+	t_list	*temp;
 	char	**moves;
 	int		i;
 
 	i = 0;
-	while(my_env && ft_strncmp(my_env->name, "PWD", 4))
+	temp = my_env;
+	while (my_env && ft_strcmp(my_env->name, "PWD"))
 		my_env = my_env->next;
-	if(!chdir(str) && my_env)
+	if (!chdir(str) && my_env)
 	{
-		g_exit = 0;
-		if(str[0] == '/')
+		ft_old_pwd(temp);
+		if (str[0] == '/')
 		{
 			free(my_env->content);
-			my_env->content = ft_strdup(str);
+			my_env->content = ft_strdup("/");
 		}
-		else
-		{
-			moves = ft_split(str, '/');
-			while(moves[i])
-			{
-				if (moves[i][0] == '.' && moves[i][1] == '.')
-					my_env->content = ft_go_back(my_env->content);
-				else if(moves[i][0] == '.' && !moves[i][1])
-					;
-				else
-					my_env->content = ft_relative_cd(my_env->content, moves[i]);
-				i++;
-			}
-			ft_kill_matrix(moves);
-		}
+		moves = ft_split(str, '/');
+		g_exit = 0;
+		while (moves[i])
+			my_env->content = ft_relative_cd(my_env->content, \
+				moves[i++], my_env);
+		ft_kill_matrix(moves);
 	}
 	else
-	{
-		g_exit = 1;
-		perror("cd");
-	}
+		g_exit = (ft_printf_fd(2, "minishell: cd: no such file or directory\n") \
+			* 0 + 1);
 }
 
-static void ft_cd_no_args(t_list *my_env)
+static void	ft_cd_no_args(t_list *my_env)
 {
 	t_list	*home;
 

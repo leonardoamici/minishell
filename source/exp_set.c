@@ -6,23 +6,23 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:41:31 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/04 16:29:54 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 15:21:13 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-extern int g_exit;
+extern int	g_exit;
 
-void 	ft_no_eq(t_list *env, char *name)
+void	ft_no_eq(t_list *env, char *name)
 {
 	t_list	*temp;
 
 	temp = env;
-	while(temp)
+	while (temp)
 	{
-		if(!ft_strcmp(temp->name, name))
-			break;
+		if (!ft_strcmp(temp->name, name))
+			break ;
 		temp = temp->next;
 	}
 	if (temp && temp->exp_check == 2)
@@ -43,7 +43,7 @@ void	ft_export(t_list *env, char **mat)
 
 	i = 0;
 	g_exit = 0;
-	if(!*mat)
+	if (!*mat)
 		ft_print_list_exported(env);
 	while (mat && *mat)
 	{
@@ -65,30 +65,24 @@ void	ft_export(t_list *env, char **mat)
 
 static void	ft_unset_var(t_list **vars, char *name)
 {
-	int		i;
 	t_list	*temp;
 	t_list	*temp2;
 
-	i = 0;
 	temp = (*vars)->next;
 	temp2 = (*vars);
-	if(!ft_strcmp((*vars)->name, name))
+	if (!ft_strcmp((*vars)->name, name))
 	{
-		free((*vars)->name);
-		free((*vars)->content);
-		free(*vars);
+		ft_free_node(*vars);
 		*vars = temp;
 	}
 	else
 	{
-		while(temp)
+		while (temp)
 		{
-			if(!ft_strcmp(temp->name, name))
+			if (!ft_strcmp(temp->name, name))
 			{
 				temp2->next = temp->next;
-				free(temp->name);
-				free(temp->content);
-				free(temp);
+				ft_free_node(temp);
 				break ;
 			}
 			temp2 = temp2->next;
@@ -117,7 +111,7 @@ static int	ft_unset_check(char *str)
 	else
 		g_exit = 1;
 	if (g_exit)
-		return(printf("minishell: unset: `%s': not a valid identifier\n", str));
+		return (printf("minishell: unset: `%s': not a valid identifier\n", str));
 	else
 		return (0);
 }

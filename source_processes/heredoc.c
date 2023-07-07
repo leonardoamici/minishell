@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 14:32:01 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/04 14:55:17 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 15:28:04 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	ft_heredoc_ctrld(char *str, char *delimiter)
 {
 	if (!str)
 	{
-		ft_printf_fd(2, "minishell: warning: here-document at line 1 delimited");
+		ft_printf_fd(2, "minishell: warning: ");
+		ft_printf_fd(2, "here-document at line 1 delimited");
 		ft_printf_fd(2, " by end-of-file (wanted `%s')\n", delimiter);
 		return (1);
 	}
@@ -84,7 +85,7 @@ int	ft_heredoc(char *delimiter, t_msh *msh)
 	int		status;
 
 	g_exit = 0;
-	heredoc_path = "/tmp/.heredoc";
+	heredoc_path = ".heredoc";
 	unlink(heredoc_path);
 	pid = fork();
 	ft_child_kill(pid);

@@ -6,14 +6,14 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 10:57:08 by lamici            #+#    #+#             */
-/*   Updated: 2023/06/30 14:35:31 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 15:26:25 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 static int	ft_count(char const *s, char c)
-{	
+{
 	int	i;
 	int	sn;
 
@@ -76,8 +76,8 @@ char	**ft_splitter(const char *s, char c)
 
 char	**ft_split(const char *str, char c)
 {
-	if(str)
-		return(ft_splitter(str, c));
+	if (str)
+		return (ft_splitter(str, c));
 	else
-		return(NULL);
+		return (NULL);
 }

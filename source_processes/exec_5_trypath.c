@@ -6,13 +6,13 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:15:26 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/04 14:50:33 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 15:33:19 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-extern int g_exit;
+extern int	g_exit;
 
 static char	**ft_get_path(t_list *vars)
 {
@@ -58,7 +58,7 @@ int	ft_try_path(char **cmd_f, t_msh *msh)
 		}
 		ft_kill_matrix(arr_paths);
 	}
-    if(g_exit == 127)
-        ft_printf_fd(2, "minishell: %s: command not found\n", *cmd_f);
+	if (g_exit == 127)
+		ft_printf_fd(2, "minishell: %s: command not found\n", *cmd_f);
 	return (g_exit);
 }

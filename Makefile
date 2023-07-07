@@ -13,6 +13,7 @@ SRC =	main.c \
 	env_managing.c \
 	signals.c \
 	cd.c \
+	cd_2.c \
 	variable_utils.c \
 	variable_utils_2.c \
 	printer.c \
@@ -79,6 +80,7 @@ libfclean:
 
 fclean:   	libfclean clean
 		rm -rf $(NAME)
+		rm -rf ./.heredoc
 		@echo "\033[95m$(NAME) removed\033[0m"
 		
 re: clean all

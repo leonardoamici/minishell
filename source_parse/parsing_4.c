@@ -6,14 +6,14 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 14:15:39 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/04 11:35:21 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 11:43:20 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 //measure the lenght of the name of the variable
-extern int g_exit;
+extern int	g_exit;
 
 int	ft_var_name_len(char *str)
 {

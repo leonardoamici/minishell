@@ -6,13 +6,13 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:29:12 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/04 15:51:36 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 11:44:31 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-extern int g_exit;
+extern int	g_exit;
 //FT_QUOTES_VARS_CPY------------------------------------------------------------
 //copies the content of the variables into line
 //(only if not inside single quotes)
@@ -24,7 +24,7 @@ static int	ft_var_cpy(char *line, char *str, t_list *vars)
 	char	*var_cont;
 	int		var_len;
 
-    if (!*str || (*str != '?' && !ft_isalnum(*str)))
+	if (!*str || (*str != '?' && !ft_isalnum(*str)))
 		var_len = ft_strlcpy(line, "$", 2);
 	else if (*str == '?')
 	{
@@ -33,14 +33,14 @@ static int	ft_var_cpy(char *line, char *str, t_list *vars)
 		ft_strlcpy(line, var_cont, var_len + 1);
 		free(var_cont);
 	}
-    else
-    {
-        var_name = ft_substr(str, 0, ft_var_name_len(str));
-        var_cont = ft_get_var_cont(var_name, vars);
-        free(var_name);
-        var_len = ft_strlen(var_cont);
-        ft_strlcpy(line, var_cont, var_len + 1);
-    }
+	else
+	{
+		var_name = ft_substr(str, 0, ft_var_name_len(str));
+		var_cont = ft_get_var_cont(var_name, vars);
+		free(var_name);
+		var_len = ft_strlen(var_cont);
+		ft_strlcpy(line, var_cont, var_len + 1);
+	}
 	return (var_len);
 }
 

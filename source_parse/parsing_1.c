@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:03:09 by abettini          #+#    #+#             */
-/*   Updated: 2023/07/04 15:35:19 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 11:47:40 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,22 +67,22 @@ static int	ft_fill_cmdlst(t_prs *tmp, char *str, int i)
 	}
 	return (i);
 }
+
 static t_prs	*ft_parse_node(void)
 {
 	t_prs	*parse;
 
 	parse = malloc(sizeof(t_prs));
 	parse->next = NULL;
-	return(parse);
+	return (parse);
 }
-static void	*ft_first_split(t_prs **parse, char *str)
+
+static void	*ft_first_split(t_prs **parse, char *str, int i)
 {
 	t_prs	*tmp;
-	int		i;
 	int		wc;
 	int		rc;
 
-	i = 0;
 	(*parse) = ft_parse_node();
 	tmp = (*parse);
 	while (str[i])
@@ -96,7 +96,7 @@ static void	*ft_first_split(t_prs **parse, char *str)
 		i = ft_fill_cmdlst(tmp, str, i);
 		while (ft_isspace(str[i]) || str[i] == '|')
 			i++;
-		if(str[i])
+		if (str[i])
 		{
 			tmp = ft_parse_node();
 			tmp->next = *parse;
@@ -107,6 +107,9 @@ static void	*ft_first_split(t_prs **parse, char *str)
 
 void	ft_parsing(t_prs **prs, char *str, t_list **my_env)
 {
-	ft_first_split(prs, str);
+	int	i;
+
+	i = 0;
+	ft_first_split(prs, str, i);
 	ft_check_expand(prs, *my_env);
 }

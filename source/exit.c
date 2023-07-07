@@ -6,13 +6,13 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 14:41:22 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/04 15:44:35 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 15:22:43 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-extern int g_exit;
+extern int	g_exit;
 
 static int	ft_llong_limit_ret(char *str)
 {
@@ -81,7 +81,7 @@ void	ft_exit(t_msh *msh, char **args)
 {
 	unsigned char	ret;
 
-	if (msh->cmd->next)
+	if (!msh->cmd->next)
 		msh->exit = 1;
 	if (!*args)
 		g_exit = 0;
@@ -92,11 +92,13 @@ void	ft_exit(t_msh *msh, char **args)
 	}
 	else if (args[0] && args[1])
 	{
+		msh->exit = 0;
 		g_exit = 1;
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 	}
 	else
 	{
-		g_exit = ft_atoi(*args) % 256;
+		ret = ft_atoi(*args);
+		g_exit = ret;
 	}
 }

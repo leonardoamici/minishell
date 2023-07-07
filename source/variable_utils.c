@@ -6,26 +6,30 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:09:08 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/04 16:30:10 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 11:49:38 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		ft_offset(char *str)
+int	ft_offset(char *str)
 {
 	int		x;
 	int		offset;
+	int		eq_offset;
 
 	x = 0;
 	offset = 0;
-	while(str[x])
+	eq_offset = 0;
+	while (str[x])
 	{
-		if(str[x] == '=' || str[x] == 34 || str[x] == 39)
+		if (str[x] == 34 || str[x] == 39)
 			offset++;
+		else if (str[x] == '=' && !eq_offset)
+			eq_offset++;
 		x++;
 	}
-	return(offset);
+	return (offset + eq_offset);
 }
 
 char	*ft_givename(int x, char *str)
@@ -55,11 +59,11 @@ char	*ft_givecontent(int x, char *str)
 	content = malloc(sizeof(char) * x + 1);
 	while (str[i] && str[i] != '=')
 		i++;
-	if(str[i] == '=')
+	if (str[i] == '=')
 		i++;
-	if(str[i] == 34 || str[i] == 39)
+	if (str[i] == 34 || str[i] == 39)
 		i++;
-	while(str[i] != '\0' && (str[i] != 34 || str[i] != 39))
+	while (str[i] != '\0' && (str[i] != 34 || str[i] != 39))
 	{
 		content[z] = str[i];
 		z++;
@@ -74,22 +78,22 @@ t_list	*ft_find_var(t_list *vars, char *str)
 	t_list	*temp;
 
 	temp = vars;
-	while(temp && (strcmp(temp->name ,str)))
+	while (temp && (strcmp(temp->name, str)))
 		temp = temp->next;
 	return (temp);
 }
 
-int		ft_var_name_check(char *str, int check)
+int	ft_var_name_check(char *str, int check)
 {
 	int	i;
 
 	i = 1;
-	if(str[0] && ft_isalpha(str[0]))
+	if (str[0] && ft_isalpha(str[0]))
 	{
-		while(str[i] && ((str[i] != '=' && check == 1) || !check))
+		while (str[i] && ((str[i] != '=' && check == 1) || !check))
 		{
-			if(!ft_isalnum(str[i]))
-				return(1);
+			if (!ft_isalnum(str[i]))
+				return (1);
 			i++;
 		}
 	}

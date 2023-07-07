@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:55:13 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/04 16:12:34 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 15:35:57 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,19 @@
 
 # define CTRL_C SIGINT
 # define CTRL_BS SIGQUIT
-# define DEBUG printf("prova\n")
 
-typedef	struct	s_list
+typedef struct s_list
 {
-	char *name;
-	char *content;
-	int		exp_check;
-	struct s_list *next;
-} 				t_list;
+	char			*name;
+	char			*content;
+	int				exp_check;
+	struct s_list	*next;
+}				t_list;
 
-typedef	struct	s_prs
+typedef struct s_prs
 {
-	char **wrd;
-	char **red;
+	char			**wrd;
+	char			**red;
 	struct s_prs	*next;
 }				t_prs;
 
@@ -50,7 +49,6 @@ typedef struct s_msh
 	int		std[2];
 	int		exit;
 }	t_msh;
-
 
 //liberator
 void		ft_freevars(t_list *vars);
@@ -71,6 +69,7 @@ void		ft_env(t_list *my_env);
 //var managing
 t_list		*ft_new_var(t_list *env, char *var, int exp);
 t_list		*ft_var_creation(char *var, int check);
+void		ft_free_node(t_list *node);
 int			ft_is_var(t_list *var, char *str);
 int			ft_var_format_check(char *var);
 int			ft_is_variable_cmd(char *str);
@@ -82,17 +81,18 @@ int			ft_var_name_check(char *str, int check);
 int			ft_equal_check(char *str);
 //built-ins
 void		ft_pwd(t_list *my_env);
+void		ft_old_pwd(t_list *my_env);
 void		ft_exit(t_msh *msh, char **args);
 void		ft_echo(char **args);
 void		ft_unset(t_list **my_env, char **args);
 // change directory
 void		ft_cd(t_list *my_env, char **args);
 // history
-char		**ft_get_hst(char *str, int	type);
+char		**ft_get_hst(char *str, int type);
 //env clone managing
 t_list		*ft_dup_env(char **old_env);
 t_list		*ft_var_check(t_list *my_env, char *var);
-void    	ft_check_env(t_list *my_env);
+void		ft_check_env(t_list *my_env);
 t_list		*ft_find_var(t_list *vars, char *str);
 void		ft_free_env(t_list *vars);
 char		**ft_env_matrix(t_list *my_env);
@@ -123,6 +123,7 @@ void		ft_reset_redir(t_msh *msh);
 int			ft_execution(char **wrd, t_msh *msh);
 int			ft_try_path(char **cmd_w_flag, t_msh *msh);
 void		ft_execute_cmd(char *cmd_path, char **cmd_w_flag, t_msh *msh);
+int			ft_check_dir(char *str);
 void		print_ancestor(void);
 void		print_abettini(void);
 

@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:01:18 by abettini          #+#    #+#             */
-/*   Updated: 2023/06/30 10:35:43 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 11:44:46 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_quotes_vars(char *str, t_list *vars)
 {
 	int		len;
 	char	*line;
-	
+
 	len = ft_quotes_vars_len(str, vars);
 	line = malloc(sizeof(char) * (len + 1));
 	if (!line)

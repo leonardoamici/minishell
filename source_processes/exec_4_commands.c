@@ -6,20 +6,20 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 09:54:25 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/04 15:38:24 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 15:32:38 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-extern int g_exit;
+extern int	g_exit;
 
-int		ft_exit_status(int	exit_code)
+int	ft_exit_status(int exit_code)
 {
-	if(WIFEXITED(exit_code))
-		return(WEXITSTATUS(exit_code));
+	if (WIFEXITED(exit_code))
+		return (WEXITSTATUS(exit_code));
 	else if (WIFSIGNALED(exit_code))
-		return(WTERMSIG(exit_code));
+		return (WTERMSIG(exit_code));
 }
 
 void	ft_execute_cmd(char *cmd_path, char **cmd_w_flag, t_msh *msh)
@@ -46,31 +46,29 @@ void	ft_execute_cmd(char *cmd_path, char **cmd_w_flag, t_msh *msh)
 	g_exit = ft_exit_status(exit_code);
 }
 
-void	ft_executable(char **cmd_w_flag, t_msh *msh)
+void	ft_executable(char **cmd_f, t_msh *msh)
 {
+	int		ret;
 
-	DIR	*test;
-
-	test = opendir(*cmd_w_flag);
-	if(test)
+	ret = 127;
+	if (ft_strchr(*cmd_f, '/') && cmd_f[0][ft_strlen(*cmd_f) - 1] != '/' \
+		&& !access(*cmd_f, F_OK) && !ft_check_dir(*cmd_f))
 	{
-		closedir(test);
-		printf("minishell: %s: permission denied\n", *cmd_w_flag);
-	}
-	else if (!access(*cmd_w_flag, F_OK))
-	{
-		if(access(*cmd_w_flag, X_OK | W_OK | R_OK))
-		{
-			g_exit = 126;
-			printf("minishell: %s: permission denied\n", *cmd_w_flag);
-		}
+		if (access(*cmd_f, X_OK))
+			ret = ft_printf_fd(2, "minishell: %s: Permission denied\n", \
+				*cmd_f) * 0 + 126;
 		else
-			ft_execute_cmd(*cmd_w_flag, cmd_w_flag, msh);
+			ft_execute_cmd(*cmd_f, cmd_f, msh);
 	}
-	else if (ft_try_path(cmd_w_flag, msh))
-		ft_putstr_fd("Command not found\n", 2);
+	else if (!ft_strchr(*cmd_f, '/'))
+		ret = ft_try_path(cmd_f, msh);
+	else if (ft_check_dir(*cmd_f))
+		ret = ft_printf_fd(2, "minishell: %s: Is a directory\n", \
+			*cmd_f) * 0 + 126;
+	else
+		ft_printf_fd(2, "minishell: %s: No such file or directory\n", *cmd_f);
+	g_exit = ret;
 }
-
 
 int	ft_execution_pt2(char **wrd, t_msh *msh)
 {
@@ -105,11 +103,11 @@ int	ft_execution(char **wrd, t_msh *msh)
 		ft_env(msh->my_env);
 	else if (!ft_strncmp(*wrd, "pwd", 4))
 		ft_pwd(msh->my_env);
-	else if(ft_is_variable_cmd(*wrd))
+	else if (ft_is_variable_cmd(*wrd))
 	{
-			g_exit = 0;
-			ft_var_check(msh->my_env, *wrd); 
-			ret = ft_execution(wrd + 1, msh);
+		g_exit = 0;
+		ft_var_check(msh->my_env, *wrd); 
+		ret = ft_execution(wrd + 1, msh);
 	}
 	else
 		ft_execution_pt2(wrd, msh);

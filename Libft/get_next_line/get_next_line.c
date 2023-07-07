@@ -1,111 +1,112 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamici <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: abettini <abettini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/25 09:32:40 by lamici            #+#    #+#             */
-/*   Updated: 2022/10/26 16:53:51 by lamici           ###   ########.fr       */
+/*   Created: 2022/10/13 08:58:18 by abettini          #+#    #+#             */
+/*   Updated: 2023/04/14 16:27:58 by abettini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-static char	*get_line(char *temp, char *buf)
+#include "get_next_line.h"
+
+static char	*ft_join_free(char *buf, char *buf_temp)
 {
-	char	*newbuf;
+	char	*buf_update;
 
-	newbuf = ft_strjoin(temp, buf);
-	free(temp);
-	return (newbuf);
+	buf_update = ft_strjoin(buf, buf_temp);
+	free(buf);
+	return (buf_update);
 }
 
-static char	*get_first_line(int fd, char *temp)
+static char	*ft_getdata(char *buf, int fd)
 {
 	int		i;
-	char	*buf;
+	char	*buf_temp;
 
-	if (temp == 0)
-		temp = ft_calloc(1, 1);
-	buf = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	if (!buf)
+		buf = ft_calloc(1, 1);
+	buf_temp = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	i = 1;
 	while (i > 0)
 	{
-		if (ft_strchr(temp, '\n'))
+		if (ft_strchr(buf, '\n') != 0)
 			break ;
-		i = read(fd, buf, BUFFER_SIZE);
+		i = read(fd, buf_temp, BUFFER_SIZE);
 		if (i < 0)
 		{
-			free(buf);
-			return (0);
+			free(buf_temp);
+			return (NULL);
 		}
-		buf[i] = '\0';
-		temp = get_line(temp, buf);
+		buf_temp[i] = '\0';
+		buf = ft_join_free(buf, buf_temp);
 	}
-	free(buf);
-	return (temp);
+	free(buf_temp);
+	return (buf);
 }
 
-static char	*get_return(char *temp)
+static char	*ft_getline(char *buf)
 {
 	int		i;
-	char	*str;
+	char	*line;
 
 	i = 0;
-	if (!temp[i])
-		return (0);
-	while (temp[i] != '\n' && temp[i] != '\0')
+	if (!buf[i])
+		return (NULL);
+	while (buf[i] != '\n' && buf[i] != '\0')
 		i++;
-	if (temp[i] == '\n')
+	if (buf[i] == '\n')
 		i++;
-	str = ft_calloc(i + 1, sizeof(char));
+	line = ft_calloc((i + 1), sizeof(char));
 	i = 0;
-	while (temp[i] != '\n' && temp[i] != '\0')
+	while (buf[i] != '\n' && buf[i] != '\0')
 	{
-		str[i] = temp[i];
+		line[i] = buf[i];
 		i++;
 	}
-	if (temp[i] == '\n')
-		str[i] = '\n';
-	return (str);
+	if (buf[i] == '\n')
+		line[i] = '\n';
+	return (line);
 }
 
-static char	*ft_leftover(char *temp)
+static char	*ft_rmline(char *buf_old)
 {
 	int		i;
-	int		y;
-	char	*str;
+	int		j;
+	char	*buf_new;
 
 	i = 0;
-	y = 0;
-	while (temp[i] != '\n' && temp[i] != '\0')
+	while (buf_old[i] != '\n' && buf_old[i] != '\0')
 		i++;
-	if (!temp[i])
-	{
-		free(temp);
-		return (0);
-	}
-	str = ft_calloc((ft_strlen(temp) - i + 1), sizeof(char));
-	i++;
-	while (temp[i] != '\0')
-	{
-		str[y] = temp[i];
-		y++;
+	if (buf_old[i] == '\n')
 		i++;
+	if (!buf_old[i])
+	{
+		free(buf_old);
+		return (NULL);
 	}
-	free(temp);
-	return (str);
+	buf_new = ft_calloc(ft_strlen(buf_old) - i + 1, sizeof(char));
+	j = 0;
+	while (buf_old[i + j] != '\0')
+	{
+		buf_new[j] = buf_old[i + j];
+		j++;
+	}
+	free(buf_old);
+	return (buf_new);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*temp[4096];
-	char		*ret;
+	char		*line;
+	static char	*buf[FOPEN_MAX];
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	temp[fd] = get_first_line(fd, temp[fd]);
-	ret = get_return(temp[fd]);
-	temp[fd] = ft_leftover(temp[fd]);
-	return (ret);
+	buf[fd] = ft_getdata(buf[fd], fd);
+	line = ft_getline(buf[fd]);
+	buf[fd] = ft_rmline(buf[fd]);
+	return (line);
 }

@@ -1,42 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_struct.c                                      :+:      :+:    :+:   */
+/*   cd_2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/15 14:23:05 by abettini          #+#    #+#             */
-/*   Updated: 2023/07/07 12:12:56 by lamici           ###   ########.fr       */
+/*   Created: 2023/07/07 12:17:34 by lamici            #+#    #+#             */
+/*   Updated: 2023/07/07 16:11:08 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//free t_var--------------------------------------------------------------------
-void	ft_freevars(t_list *vars)
+void	ft_old_pwd(t_list *my_env)
 {
 	t_list	*temp;
+	char	*temp2;
 
-	while (vars)
+	temp = my_env;
+	while (my_env && ft_strcmp(my_env->name, "OLDPWD"))
+		my_env = my_env->next;
+	while (temp && ft_strcmp(temp->name, "PWD"))
+		temp = temp->next;
+	if (my_env)
 	{
-		temp = vars->next;
-		free(vars->name);
-		free(vars->content);
-		free(vars);
-		vars = temp;
+		free(my_env->content);
+		my_env->content = ft_strdup(temp->content);
 	}
-}
-
-void	ft_free_cmdlst(t_prs *cmd)
-{
-	t_prs	*temp;
-
-	while (cmd)
+	else
 	{
-		temp = cmd->next;
-		ft_kill_matrix(cmd->red);
-		ft_kill_matrix(cmd->wrd);
-		free(cmd);
-		cmd = temp;
+		temp2 = ft_strjoin("OLDPWD=", temp->content);
+		while (temp && temp->next)
+			temp = temp->next;
+		temp->next = ft_var_creation(temp2, 1);
+		free(temp2);
 	}
 }

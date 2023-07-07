@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-extern int g_exit;
+extern int	g_exit;
 
 void	ft_echo(char **args)
 {
@@ -46,17 +46,17 @@ void	ft_pwd(t_list *my_env)
 	t_list	*temp;
 
 	temp = my_env;
-	while(temp)
+	while (temp)
 	{
-		if(!ft_strncmp(temp->name, "PWD", 3))
+		if (!ft_strncmp(temp->name, "PWD", 3))
 		{
 			printf("%s\n", temp->content);
-			break;
+			break ;
 		}
 		else
 			temp = temp->next;
 	}
-	if(temp)
+	if (temp)
 		g_exit = 0;
 	else
 		g_exit = 1;

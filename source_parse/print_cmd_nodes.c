@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:13:04 by abettini          #+#    #+#             */
-/*   Updated: 2023/06/13 15:39:57 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/07 11:45:46 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	ft_print_lst(t_prs *lst)
 {
 	t_prs		*tmp;
-	int		i;
-	int		n;
+	int			i;
+	int			n;
 
 	n = 1;
 	printf("\n");
