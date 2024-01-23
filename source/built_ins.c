@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 09:05:25 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/04 14:42:13 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/10 14:37:19 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,11 @@ void	ft_echo(char **args)
 		write(STDOUT_FILENO, "\n", 1);
 }
 
-void	ft_pwd(t_list *my_env)
+void	ft_pwd(void)
 {
-	t_list	*temp;
+	char	str[1000];
 
-	temp = my_env;
-	while (temp)
-	{
-		if (!ft_strncmp(temp->name, "PWD", 3))
-		{
-			printf("%s\n", temp->content);
-			break ;
-		}
-		else
-			temp = temp->next;
-	}
-	if (temp)
-		g_exit = 0;
-	else
-		g_exit = 1;
+	g_exit = 0;
+	getcwd(str, 1000);
+	printf("%s\n", str);
 }

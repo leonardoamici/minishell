@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:55:13 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/07 15:35:57 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/10 14:37:56 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ int			ft_max_consec_char(char *str, char c);
 int			ft_check_weird_1(char *str);
 int			ft_check_weird_2(char *str, char c);
 int			ft_check_weird_3(char *str, char c);
-//project body
-char		**ft_handler(char *str, char **hst, t_list **my_env);
 //printing
 void		ft_print_history(char **hst);
 void		ft_print_list_exported(t_list *vars);
@@ -70,7 +68,6 @@ void		ft_env(t_list *my_env);
 t_list		*ft_new_var(t_list *env, char *var, int exp);
 t_list		*ft_var_creation(char *var, int check);
 void		ft_free_node(t_list *node);
-int			ft_is_var(t_list *var, char *str);
 int			ft_var_format_check(char *var);
 int			ft_is_variable_cmd(char *str);
 //var utils
@@ -80,7 +77,7 @@ char		*ft_givecontent(int x, char *str);
 int			ft_var_name_check(char *str, int check);
 int			ft_equal_check(char *str);
 //built-ins
-void		ft_pwd(t_list *my_env);
+void		ft_pwd(void);
 void		ft_old_pwd(t_list *my_env);
 void		ft_exit(t_msh *msh, char **args);
 void		ft_echo(char **args);

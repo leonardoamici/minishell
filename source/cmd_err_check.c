@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:10:50 by gmorelli          #+#    #+#             */
-/*   Updated: 2023/07/07 11:52:51 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/10 14:32:34 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_syntax(char *str)
 
 	err_msg = "minishell: syntax error near unexpected token ";
 	if (ft_max_consec_char(str, '|') > 1)
-		return (ft_printf_fd(2, "%s `|'\n") * 0 + 1);
+		return (ft_printf_fd(2, "%s `|'\n", err_msg) * 0 + 1);
 	if (ft_max_consec_char(str, '>') > 2)
 		return (ft_printf_fd(2, "%s`>'\n", err_msg) * 0 + 1);
 	if (ft_max_consec_char(str, '<') > 2)

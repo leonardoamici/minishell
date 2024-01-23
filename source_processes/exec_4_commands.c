@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 09:54:25 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/07 15:32:38 by lamici           ###   ########.fr       */
+/*   Updated: 2023/12/11 10:15:21 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_exit_status(int exit_code)
 		return (WEXITSTATUS(exit_code));
 	else if (WIFSIGNALED(exit_code))
 		return (WTERMSIG(exit_code));
+	return (0);
 }
 
 void	ft_execute_cmd(char *cmd_path, char **cmd_w_flag, t_msh *msh)
@@ -102,11 +103,11 @@ int	ft_execution(char **wrd, t_msh *msh)
 	else if (!ft_strncmp(*wrd, "env", 4))
 		ft_env(msh->my_env);
 	else if (!ft_strncmp(*wrd, "pwd", 4))
-		ft_pwd(msh->my_env);
+		ft_pwd();
 	else if (ft_is_variable_cmd(*wrd))
 	{
 		g_exit = 0;
-		ft_var_check(msh->my_env, *wrd); 
+		ft_var_check(msh->my_env, *wrd);
 		ret = ft_execution(wrd + 1, msh);
 	}
 	else

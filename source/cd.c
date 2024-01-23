@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:03:19 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/07 16:08:37 by lamici           ###   ########.fr       */
+/*   Updated: 2023/07/10 14:23:22 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ static void	ft_cd_1_arg(t_list *my_env, char *str)
 		ft_kill_matrix(moves);
 	}
 	else
-		g_exit = (ft_printf_fd(2, "minishell: cd: no such file or directory\n") \
-			* 0 + 1);
+		g_exit = (ft_printf_fd(2, "cd: no such file or directory\n") * 0 + 1);
 }
 
 static void	ft_cd_no_args(t_list *my_env)

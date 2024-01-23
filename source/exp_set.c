@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:41:31 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/07 15:21:13 by lamici           ###   ########.fr       */
+/*   Updated: 2023/12/11 10:13:29 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ static int	ft_unset_check(char *str)
 	else
 		g_exit = 1;
 	if (g_exit)
-		return (printf("minishell: unset: `%s': not a valid identifier\n", str));
+		return (printf("minishell: unset: `%s': not a valid identifier\n"\
+			, str));
 	else
 		return (0);
 }

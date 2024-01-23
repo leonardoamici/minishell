@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:03:09 by abettini          #+#    #+#             */
-/*   Updated: 2023/07/07 11:47:40 by lamici           ###   ########.fr       */
+/*   Updated: 2023/12/11 10:15:52 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static t_prs	*ft_parse_node(void)
 	return (parse);
 }
 
-static void	*ft_first_split(t_prs **parse, char *str, int i)
+static void	ft_first_split(t_prs **parse, char *str, int i)
 {
 	t_prs	*tmp;
 	int		wc;

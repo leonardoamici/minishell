@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:29:12 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/07 11:44:31 by lamici           ###   ########.fr       */
+/*   Updated: 2023/12/11 10:13:47 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_stat_cpy(int check, int *stat, char c, char *dest)
 		*dest = c;
 		return (1);
 	}
-	return (0); 
+	return (0);
 }
 
 void	ft_quotes_vars_cpy(char *line, char *str, t_list *vars)

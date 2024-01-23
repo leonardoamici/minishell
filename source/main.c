@@ -6,7 +6,7 @@
 /*   By: lamici <lamici@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:43:52 by lamici            #+#    #+#             */
-/*   Updated: 2023/07/07 15:45:22 by lamici           ###   ########.fr       */
+/*   Updated: 2023/12/18 14:18:09 by lamici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	ft_init(t_msh *msh, t_list *env, t_prs *cmd)
 	msh->my_env = env;
 	msh->cmd = cmd;
 	msh->exit = 0;
-	msh->std[0] = dup(0);
-	msh->std[1] = dup(1);
+	msh->std[0] = 0;
+	msh->std[1] = 1;
 	msh->fd[0] = -2;
 	msh->fd[1] = -2;
 }
